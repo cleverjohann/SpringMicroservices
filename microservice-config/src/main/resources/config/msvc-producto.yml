@@ -1,11 +1,11 @@
 spring:
   application:
-    name: msvc-product
+    name: msvc-producto
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/cursesDb
-    username: postgre
-    password: clever
+    url: jdbc:postgresql://localhost:5432/microservice-soa-db
+    username: microservice-soa
+    password: kiones
   jpa:
     hibernate:
       ddl-auto: create
