@@ -8,9 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-gateway" />
-        <module name="microservice-eureka" />
-        <module name="microservice-estudent" />
+        <module name="microservice-usuarios" />
         <module name="microservice-curso" />
+        <module name="microservice-estudent" />
+        <module name="microservice-eureka" />
         <module name="microservice-config" />
       </profile>
     </annotationProcessing>
@@ -22,6 +23,7 @@
       <module name="microservice-estudent" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
+      <module name="microservice-usuarios" options="-parameters" />
     </option>
   </component>
 </project>
