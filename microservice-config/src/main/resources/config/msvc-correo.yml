@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: msvc-correo
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ninaenzo70@gmail.com
+    password: cdna zfwm mptp rvdd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+
+server:
+  port: 9031
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

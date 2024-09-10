@@ -37,7 +37,7 @@ public class UsuarioController {
         return usuarioService.save(usuario);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     public ResponseEntity<Usuario> edit(@PathVariable Integer id, @RequestBody Usuario usuario) {
         Usuario updated = usuarioService.update(id, usuario);
         return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();

@@ -12,6 +12,8 @@
         <module name="microservice-estudent" />
         <module name="microservice-curso" />
         <module name="microservice-config" />
+        <module name="microservice-auth" />
+        <module name="microservice-correo" />
         <module name="microservice-eureka" />
         <module name="microservice-usuarios" />
       </profile>
@@ -19,11 +21,14 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="microservice-auth" options="-parameters" />
       <module name="microservice-config" options="-parameters" />
+      <module name="microservice-correo" options="-parameters" />
       <module name="microservice-curso" options="-parameters" />
       <module name="microservice-estudent" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
+      <module name="microservice-producto" options="-parameters" />
       <module name="microservice-usuarios" options="-parameters" />
     </option>
   </component>
