@@ -1,4 +1,4 @@
-package com.microservice.microserviceauth;
+package com.microservice.categoria;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class MicroserviceAuthApplication {
+public class MicroserviceCategoriaApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(MicroserviceAuthApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(MicroserviceCategoriaApplication.class, args);
+	}
 
 }

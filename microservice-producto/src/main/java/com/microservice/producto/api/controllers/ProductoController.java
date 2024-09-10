@@ -9,38 +9,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
-@RequestMapping("/productos")
-@AllArgsConstructor
+@RequestMapping("/api/productos")
 public class ProductoController {
 
     private final ProductoService productoService;
 
-    @PostMapping
-    public ResponseEntity<ProductoResponse> createProducto(@RequestBody ProductoRequest request) {
-        ProductoResponse response = productoService.create(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ProductoController(ProductoService productoService) {
+        this.productoService = productoService;
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductoResponse> updateProducto(@PathVariable Long id, @RequestBody ProductoRequest request) {
-        ProductoResponse response = productoService.update(id, request);
-        return ResponseEntity.ok(response);
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ProductoResponse> deleteProducto(@PathVariable Long id) {
-        ProductoResponse response = productoService.delete(id);
-        return ResponseEntity.ok(response);
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductoResponse> getProductoById(@PathVariable Long id) {
-        ProductoResponse response = productoService.findById(id);
-        return ResponseEntity.ok(response);
-    }
-    @GetMapping
-    public ResponseEntity<List<ProductoResponse>> getAllProductos() {
-        List<ProductoResponse> responses = (List<ProductoResponse>) productoService.findAll();
-        return ResponseEntity.ok(responses);
-    }
+
+
 }

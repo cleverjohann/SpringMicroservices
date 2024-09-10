@@ -2,17 +2,16 @@ package com.microservice.producto.infraestructure.abstract_services;
 
 import com.microservice.producto.api.models.request.ProductoRequest;
 import com.microservice.producto.api.models.responses.ProductoResponse;
+import com.microservice.producto.domain.entities.ProductoEntity;
 
-public interface IProductoService extends CrudService<ProductoRequest, ProductoResponse, Long> {
+import java.util.List;
 
-    ProductoResponse create(ProductoRequest request);
+public interface IProductoService  {
 
-    ProductoResponse update(Long id, ProductoRequest request);
-
-    ProductoResponse delete(Long id);
-
-    ProductoResponse findById(Long id);
-
-    ProductoResponse findAll();
+    ProductoEntity save(ProductoEntity producto);
+    ProductoEntity update(Integer id, ProductoEntity producto);
+    boolean delete(Integer id);
+    ProductoEntity findById(Integer id);
+    List<ProductoEntity> findAll();
 
 }

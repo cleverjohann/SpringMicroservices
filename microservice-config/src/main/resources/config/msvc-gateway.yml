@@ -10,14 +10,26 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: students
-          uri: http://localhost:8041
+        - id: productos
+          uri: http://localhost:8043
           predicates:
-            - Path=/api/student/**
-        - id: courses
+            - Path=/api/productos/**
+        - id: categorias
           uri: http://localhost:8042
           predicates:
-            - Path=/api/course/**
+            - Path=/api/categorias/**
+        - id: usuarios
+          uri: http://localhost:9030
+          predicates:
+            - Path=/api/Usuario/**
+        - id: auth
+          uri: http://localhost:9032
+          predicates:
+            - Path=/auth/**
+        - id: correo
+          uri: http://localhost:9031
+          predicates:
+           - Path=/enviar-correo/**
 eureka:
   client:
     register-with-eureka: false
