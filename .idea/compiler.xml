@@ -8,11 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-gateway" />
-        <module name="microservice-usuarios" />
-        <module name="microservice-curso" />
+        <module name="microservice-producto" />
         <module name="microservice-estudent" />
-        <module name="microservice-eureka" />
+        <module name="microservice-curso" />
         <module name="microservice-config" />
+        <module name="microservice-eureka" />
+        <module name="microservice-usuarios" />
       </profile>
     </annotationProcessing>
   </component>

@@ -1,4 +1,4 @@
-package com.microservice.curso;
+package com.microservice.producto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6,7 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootTest
-class MicroserviceCursoApplicationTests {
+class MicroserviceProductoApplicationTests {
 
 	@Test
 	void contextLoads() {
