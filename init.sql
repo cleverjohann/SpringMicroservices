@@ -4,7 +4,8 @@ CREATE TABLE usuarios (
     apellidop VARCHAR(50) NOT NULL,
     apellidom VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL
+    password VARCHAR(50) NOT NULL,
+    cuenta_verificada boolean DEFAULT FALSE
 );
 
 CREATE TABLE sesiones (

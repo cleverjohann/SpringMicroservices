@@ -17,12 +17,15 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>microservice-producto</module>
     <module>microservice-gateway</module>
     <module>microservice-eureka</module>
     <module>microservice-config</module>
     <module>microservice-estudent</module>
     <module>microservice-curso</module>
+    <module>microservice-producto</module>
+    <module>microservice-usuarios</module>
+    <module>microservice-auth</module>
+    <module>microservice-correo</module>
   </modules>
 
   <properties>
