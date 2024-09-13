@@ -21,21 +21,25 @@ public class VerificarCuentaController {
 
     private final IUsuarioService usuarioService;
     private final CodigoServiceIntermedio codigoServiceIntermedio;
-    private UsuarioCliente usuarioCliente;
+    private final UsuarioCliente usuarioCliente;
 
     //Primero se envia el correo con el codigo de verificación con enviarcodigocontroller
     @PostMapping("/verificar-cuenta")
     public ResponseEntity<?> verificarCuenta(@RequestBody VerificarCuentaDto dto) {
         //Buscar usuario por correo
-        Optional<Usuario> usuario = usuarioService.findByUsername(dto.getCorreo());
+        Usuario usuario = usuarioService.findByUsername(dto.getCorreo()).get();
+
+        if (usuario.isCuenta_verificada()) {
+            return ResponseEntity.badRequest().body("La cuenta ya ha sido verificada");
+        }
+
         // Verificar código de verificación
         if (codigoServiceIntermedio.getCodigo().equalsIgnoreCase(dto.getCodigo())) {
             //Buscamos el usuario por email
-            Usuario usuarioEncontrado = usuarioCliente.findByUsername(dto.getCorreo()).getBody();
-            assert usuarioEncontrado != null;
-            usuarioEncontrado.setCuenta_verificada(true);
 
-            usuarioCliente.edit(usuarioEncontrado.getId(), usuarioEncontrado);
+            usuario.setCuenta_verificada(true);
+
+            usuarioCliente.edit(usuario.getId(), usuario);
 
             return ResponseEntity.ok().body("Cuenta verificada");
         }
