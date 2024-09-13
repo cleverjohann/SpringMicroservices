@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "msvc-categoria",url = "localhost:8042")
 public interface CategoriaClient {
     @GetMapping("/categoria/{id}")
-    public CategoriaResponse findById(@PathVariable Long id);
+    CategoriaResponse findById(@PathVariable Long id);
 }

@@ -8,13 +8,13 @@ spring:
     password: kiones
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 
 server:
-  port: 8043
+  port: 4030
 
 eureka:
   instance:
