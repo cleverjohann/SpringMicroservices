@@ -30,7 +30,17 @@ public class IUsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public Usuario update(Integer id, Usuario usuario) {
-        return null;
+        //Buscamos el usuario por id y si no lo encuentra lanza una excepción
+        Usuario usuarioEncontrado = usuarioRepository.findById(id).get();
+        //Cambiamos los datos del usuario encontrado por los datos del usuario que nos pasan
+        usuarioEncontrado.setNombres(usuario.getNombres());
+        usuarioEncontrado.setApellidop(usuario.getApellidop());
+        usuarioEncontrado.setApellidom(usuario.getApellidom());
+        usuarioEncontrado.setCuenta_verificada(usuario.isCuenta_verificada());
+        usuarioEncontrado.setEmail(usuario.getEmail());
+        usuarioEncontrado.setPassword(usuario.getPassword());
+        //Actualizamos el usuario
+        return usuarioRepository.save(usuarioEncontrado);
     }
 
     @Override

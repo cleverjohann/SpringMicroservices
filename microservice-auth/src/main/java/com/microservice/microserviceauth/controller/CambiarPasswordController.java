@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CambiarPasswordController {
 
     private final CodigoServiceIntermedio codigoServiceIntermedio;
-    private UsuarioCliente usuarioCliente;
+    private final UsuarioCliente usuarioCliente;
 
     @PostMapping("/cambiar-password")
     public ResponseEntity<?> cambiarPassword(@RequestBody CambiarPasswordDto dto) {

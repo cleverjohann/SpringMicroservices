@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "msvc-usuarios", url = "localhost:9030")
+@FeignClient(name = "msvc-usuario", url = "localhost:9030")
 public interface UsuarioCliente {
 
-    @PutMapping("/editar/{id}")
-    ResponseEntity<Usuario> edit(@PathVariable("id") Integer id, @RequestBody Usuario usuario);
+    @PutMapping("/api/usuarios/editar/{id}")
+    ResponseEntity<Usuario> edit(@PathVariable(name="id") Integer id, @RequestBody Usuario usuario);
 
-    @GetMapping("/{email}")
-    ResponseEntity<Usuario> findByUsername(@PathVariable("email") String email);
+    @GetMapping("/api/usuarios/findByEmail/{email}")
+    ResponseEntity<Usuario> findByUsername(@PathVariable(name = "email") String email);
 
 }

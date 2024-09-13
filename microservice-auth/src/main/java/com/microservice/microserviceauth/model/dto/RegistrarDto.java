@@ -20,6 +20,8 @@ public class RegistrarDto implements Serializable {
 
     @NotNull
     @Size(max = 50)
+
+            
     String nombres;
     @NotNull
     @Size(max = 50)

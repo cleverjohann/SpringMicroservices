@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "msvc-correo", url = "localhost:9031")
 public interface CorreoCliente {
 
-    @PostMapping("/enviar-correo")
+    @PostMapping("/enviar-correo/enviar")
     void enviarCorreo(@RequestBody CorreoClientDto dto);
 
 }
