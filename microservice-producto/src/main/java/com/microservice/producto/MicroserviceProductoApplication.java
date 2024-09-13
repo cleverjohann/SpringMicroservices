@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.microservice.producto", "com.microservice.categoria"})
+@ComponentScan(basePackages = "com.microservice")
 public class MicroserviceProductoApplication {
 
 	public static void main(String[] args) {

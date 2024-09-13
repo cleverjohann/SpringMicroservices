@@ -65,6 +65,7 @@ public ProductoEntity update(Integer id, ProductoEntity producto) {
 
     @Override
     public List<ProductoEntity> findAll() {
-        return productoRepository.findAll();
+    List<ProductoEntity> productos = productoRepository.findAll();
+    return productoRepository.findAll();
     }
 }

@@ -1,8 +1,6 @@
 package com.microservice.categoria.domain.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 
@@ -17,21 +15,18 @@ public class CategoriaEntity {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Size(max = 50)
-    @NotNull
     @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
 
-    @Size(max = 100)
-    @NotNull
+
     @Column(name = "descripcion", nullable = false, length = 100)
     private String descripcion;
 
-    public @Size(max = 100) @NotNull String getDescripcion() {
+    public  String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(@Size(max = 100) @NotNull String descripcion) {
+    public void setDescripcion( String descripcion) {
         this.descripcion = descripcion;
     }
 
@@ -43,11 +38,11 @@ public class CategoriaEntity {
         this.id = id;
     }
 
-    public @Size(max = 50) @NotNull String getNombre() {
+    public  String getNombre() {
         return nombre;
     }
 
-    public void setNombre(@Size(max = 50) @NotNull String nombre) {
+    public void setNombre( String nombre) {
         this.nombre = nombre;
     }
 }

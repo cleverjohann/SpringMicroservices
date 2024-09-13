@@ -12,11 +12,12 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 
-@Entity(name = "productos")
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
+@Table(name = "productos")
 public class ProductoEntity {
 
     @Id

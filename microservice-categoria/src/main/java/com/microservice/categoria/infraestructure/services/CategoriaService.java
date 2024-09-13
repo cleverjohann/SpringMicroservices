@@ -22,7 +22,7 @@ public class CategoriaService implements ICategoriaService {
         return categoriaRepository.save(categoria);
     }
 
-    @Override
+   @Override
     public CategoriaEntity update(Integer id, CategoriaEntity categoria) {
         return categoriaRepository.findById(id).map(categoriaEntity -> {
             categoriaEntity.setNombre(categoria.getNombre());
@@ -40,7 +40,7 @@ public class CategoriaService implements ICategoriaService {
 
     @Override
     public CategoriaEntity findById(Integer id) {
-        return null;
+        return categoriaRepository.findById(id).orElse(null);
     }
 
     @Override
