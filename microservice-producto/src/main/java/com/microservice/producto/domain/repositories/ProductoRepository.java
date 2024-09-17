@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProductoRepository extends JpaRepository<ProductoEntity, Integer> {
+public interface ProductoRepository extends JpaRepository<ProductoEntity, Long> {
 
-    @EntityGraph(attributePaths = "categoria")
-    List<ProductoEntity> findAll();
-
-    @EntityGraph(attributePaths = "categoria")
-    Optional<ProductoEntity> findById(Integer id);
+//    @EntityGraph(attributePaths = "categoria")
+//    List<ProductoEntity> findAll();
+//
+//    @EntityGraph(attributePaths = "categoria")
+//    Optional<ProductoEntity> findById(Integer id);
 }
