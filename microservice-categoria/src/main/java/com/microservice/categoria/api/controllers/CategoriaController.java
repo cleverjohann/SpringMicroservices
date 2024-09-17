@@ -18,7 +18,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaEntity> findById(@PathVariable Integer id) {
+    public ResponseEntity<CategoriaEntity> findById(@PathVariable Long id) {
         CategoriaEntity entity = categoriaService.findById(id);
         return entity != null ? ResponseEntity.ok(entity) : ResponseEntity.notFound().build();
     }
@@ -34,13 +34,13 @@ public class CategoriaController {
     }
 
     @PutMapping("/editar/{id}")
-    public ResponseEntity<CategoriaEntity> edit(@PathVariable Integer id, @RequestBody CategoriaEntity categoria) {
+    public ResponseEntity<CategoriaEntity> edit(@PathVariable Long id, @RequestBody CategoriaEntity categoria) {
         CategoriaEntity updated = categoriaService.update(id, categoria);
         return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         boolean deleted = categoriaService.delete(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }

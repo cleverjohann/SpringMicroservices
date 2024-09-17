@@ -9,8 +9,8 @@ import java.util.List;
 public interface ICategoriaService {
 
     CategoriaEntity save(CategoriaEntity categoria);
-    CategoriaEntity update(Integer id, CategoriaEntity categoria);
-    boolean delete(Integer id);
-    CategoriaEntity findById(Integer id);
+    CategoriaEntity update(Long id, CategoriaEntity categoria);
+    boolean delete(Long id);
+    CategoriaEntity findById(Long id);
     List<CategoriaEntity> findAll();
 }

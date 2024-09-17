@@ -23,15 +23,16 @@ public class CategoriaService implements ICategoriaService {
     }
 
    @Override
-    public CategoriaEntity update(Integer id, CategoriaEntity categoria) {
+    public CategoriaEntity update(Long id, CategoriaEntity categoria) {
         return categoriaRepository.findById(id).map(categoriaEntity -> {
             categoriaEntity.setNombre(categoria.getNombre());
+            categoriaEntity.setDescripcion(categoria.getDescripcion());
             return categoriaRepository.save(categoriaEntity);
         }).orElseThrow(() -> new CategoriaNotFoundException("Categoria no encontrada"));
     }
 
     @Override
-    public boolean delete(Integer id) {
+    public boolean delete(Long id) {
         return categoriaRepository.findById(id).map(categoriaEntity -> {
             categoriaRepository.delete(categoriaEntity);
             return true;
@@ -39,7 +40,7 @@ public class CategoriaService implements ICategoriaService {
     }
 
     @Override
-    public CategoriaEntity findById(Integer id) {
+    public CategoriaEntity findById(Long id) {
         return categoriaRepository.findById(id).orElse(null);
     }
 
