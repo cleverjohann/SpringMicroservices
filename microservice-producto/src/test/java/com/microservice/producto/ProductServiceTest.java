@@ -37,10 +37,10 @@ public class ProductServiceTest {
     public void save_ReturnsSavedProducto_WhenCategoriaExists() {
         ProductoEntity producto = new ProductoEntity();
         CategoriaEntity categoria = new CategoriaEntity();
-        categoria.setId(1);
+        categoria.setId(1L);
         producto.setCategoria(categoria);
 
-        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoria));
+        when(categoriaRepository.findById(1L)).thenReturn(Optional.of(categoria));
         when(productoRepository.save(producto)).thenReturn(producto);
 
         ProductoEntity result = productoService.save(producto);
@@ -53,10 +53,10 @@ public class ProductServiceTest {
     public void save_ThrowsException_WhenCategoriaDoesNotExist() {
         ProductoEntity producto = new ProductoEntity();
         CategoriaEntity categoria = new CategoriaEntity();
-        categoria.setId(999);
+        categoria.setId(999L);
         producto.setCategoria(categoria);
 
-        when(categoriaRepository.findById(999)).thenReturn(Optional.empty());
+        when(categoriaRepository.findById(999L)).thenReturn(Optional.empty());
 
         assertThrows(CategoriaNotFoundException.class, () -> productoService.save(producto));
     }
@@ -68,13 +68,13 @@ public class ProductServiceTest {
         ProductoEntity producto = new ProductoEntity();
         producto.setNombre("Updated Name");
         CategoriaEntity categoria = new CategoriaEntity();
-        categoria.setId(1);
+        categoria.setId(1L);
         producto.setCategoria(categoria);
         ProductoEntity existingProducto = new ProductoEntity();
         existingProducto.setId(Long.valueOf(id));
 
         when(productoRepository.findById(id)).thenReturn(Optional.of(existingProducto));
-        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoria));
+        when(categoriaRepository.findById(1L)).thenReturn(Optional.of(categoria));
         when(productoRepository.save(existingProducto)).thenReturn(existingProducto);
 
         ProductoEntity result = productoService.update(id, producto);
@@ -88,7 +88,7 @@ public class ProductServiceTest {
         Integer id = 999;
         ProductoEntity producto = new ProductoEntity();
         CategoriaEntity categoria = new CategoriaEntity();
-        categoria.setId(1);
+        categoria.setId(1L);
         producto.setCategoria(categoria);
 
         when(productoRepository.findById(id)).thenReturn(Optional.empty());
@@ -101,13 +101,13 @@ public class ProductServiceTest {
         Integer id = 1;
         ProductoEntity producto = new ProductoEntity();
         CategoriaEntity categoria = new CategoriaEntity();
-        categoria.setId(999);
+        categoria.setId(999L);
         producto.setCategoria(categoria);
         ProductoEntity existingProducto = new ProductoEntity();
         existingProducto.setId(Long.valueOf(id));
 
         when(productoRepository.findById(id)).thenReturn(Optional.of(existingProducto));
-        when(categoriaRepository.findById(999)).thenReturn(Optional.empty());
+        when(categoriaRepository.findById(999L)).thenReturn(Optional.empty());
 
         assertThrows(CategoriaNotFoundException.class, () -> productoService.update(id, producto));
     }

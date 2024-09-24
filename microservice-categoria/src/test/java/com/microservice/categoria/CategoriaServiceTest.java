@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,6 @@ public class CategoriaServiceTest {
     @MockBean
     private CategoriaRepository categoriaRepository;
 
-    //Guardar Categoria
     @Test
     public void save_ReturnsSavedCategoria() {
         CategoriaEntity categoria = new CategoriaEntity();
@@ -38,10 +38,10 @@ public class CategoriaServiceTest {
         assertNotNull(result);
         assertEquals("New Categoria", result.getNombre());
     }
-    //Actualizar Categoria
+
     @Test
     public void update_UpdatesAndReturnsCategoria_WhenIdExists() {
-        Integer id = 1;
+        Long id = 1L;
         CategoriaEntity categoria = new CategoriaEntity();
         categoria.setNombre("Updated Categoria");
         CategoriaEntity existingCategoria = new CategoriaEntity();
@@ -58,7 +58,7 @@ public class CategoriaServiceTest {
 
     @Test
     public void update_ThrowsException_WhenIdDoesNotExist() {
-        Integer id = 999;
+        Long id = 999L;
         CategoriaEntity categoria = new CategoriaEntity();
 
         when(categoriaRepository.findById(id)).thenReturn(Optional.empty());
@@ -66,10 +66,9 @@ public class CategoriaServiceTest {
         assertThrows(CategoriaNotFoundException.class, () -> categoriaService.update(id, categoria));
     }
 
-    //Borrar Categoria
     @Test
     public void delete_ReturnsTrue_WhenIdExists() {
-        Integer id = 1;
+        Long id = 1L;
         CategoriaEntity categoria = new CategoriaEntity();
         categoria.setId(id);
 
@@ -82,17 +81,16 @@ public class CategoriaServiceTest {
 
     @Test
     public void delete_ThrowsException_WhenIdDoesNotExist() {
-        Integer id = 999;
+        Long id = 999L;
 
         when(categoriaRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(CategoriaNotFoundException.class, () -> categoriaService.delete(id));
     }
 
-    //Buscar por id categoria
     @Test
     public void findById_ReturnsCategoria_WhenIdExists() {
-        Integer id = 1;
+        Long id = 1L;
         CategoriaEntity categoria = new CategoriaEntity();
         categoria.setId(id);
 
@@ -106,7 +104,7 @@ public class CategoriaServiceTest {
 
     @Test
     public void findById_ReturnsNull_WhenIdDoesNotExist() {
-        Integer id = 999;
+        Long id = 999L;
 
         when(categoriaRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -115,7 +113,6 @@ public class CategoriaServiceTest {
         assertNull(result);
     }
 
-    //Listar todas las categorias
     @Test
     public void findAll_ReturnsListOfCategorias() {
         List<CategoriaEntity> categorias = Arrays.asList(new CategoriaEntity(), new CategoriaEntity());
