@@ -68,4 +68,5 @@ public ProductoEntity update(Integer id, ProductoEntity producto) {
     List<ProductoEntity> productos = productoRepository.findAll();
     return productoRepository.findAll();
     }
+
 }

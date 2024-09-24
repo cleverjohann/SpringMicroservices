@@ -20,6 +20,11 @@ public class UsuarioImpl implements IUsuarioService {
     }
 
     @Override
+    public Usuario save(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    @Override
     public Optional<Usuario> findByUsername(String username) {
         return usuarioRepository.findByUsername(username);
     }
@@ -29,8 +34,5 @@ public class UsuarioImpl implements IUsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public Usuario save(Usuario usuario) {
-        return usuarioRepository.save(usuario);
-    }
+
 }

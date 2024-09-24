@@ -24,6 +24,7 @@
     <module>microservice-categoria</module>
     <module>microservice-correo</module>
     <module>microservice-usuarios</module>
+    <module>microservice-pedido</module>
     <module>microservice-auth</module>
   </modules>
 

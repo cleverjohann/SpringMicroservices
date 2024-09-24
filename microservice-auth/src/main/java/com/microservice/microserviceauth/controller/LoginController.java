@@ -2,6 +2,7 @@ package com.microservice.microserviceauth.controller;
 
 import com.microservice.microserviceauth.model.Usuario;
 import com.microservice.microserviceauth.model.dto.LoginDto;
+import com.microservice.microserviceauth.model.dto.UsuarioResponseDto;
 import com.microservice.microserviceauth.service.IAuthenticacionService;
 import com.microservice.microserviceauth.service.IUsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,9 +40,17 @@ public class LoginController {
             //Generamos el jwt
             String token = authenticacionService.getToken(usuario.get());
 
+            //Creamos el response de Usuario
+            UsuarioResponseDto usuarioResponseDto = new UsuarioResponseDto();
+            usuarioResponseDto.setNombres(usuario.get().getNombres());
+            usuarioResponseDto.setApellidop(usuario.get().getApellidop());
+            usuarioResponseDto.setApellidom(usuario.get().getApellidom());
+            usuarioResponseDto.setEmail(usuario.get().getEmail());
+            usuarioResponseDto.setCuenta_verificada(usuario.get().isCuenta_verificada());
+
             response.put("message", "Usuario logeado correctamente");
             response.put("token", token);
-            response.put("data", usuario.get());
+            response.put("data", usuarioResponseDto);
             response.put("status", HttpStatus.OK);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
