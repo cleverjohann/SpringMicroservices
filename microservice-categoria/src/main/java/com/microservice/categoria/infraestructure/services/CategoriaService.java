@@ -7,6 +7,7 @@ import com.microservice.categoria.util.CategoriaNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class CategoriaService implements ICategoriaService {
 
@@ -22,7 +23,8 @@ public class CategoriaService implements ICategoriaService {
         return categoriaRepository.save(categoria);
     }
 
-   @Override
+
+    @Override
     public CategoriaEntity update(Long id, CategoriaEntity categoria) {
         return categoriaRepository.findById(id).map(categoriaEntity -> {
             categoriaEntity.setNombre(categoria.getNombre());

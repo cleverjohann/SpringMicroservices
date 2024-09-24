@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-gateway" />
+        <module name="microservice-pedido" />
         <module name="microservice-config" />
         <module name="microservice-auth" />
         <module name="microservice-correo" />
@@ -41,6 +42,7 @@
       <module name="microservice-estudent" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
+      <module name="microservice-pedido" options="-parameters" />
       <module name="microservice-producto" options="-parameters" />
       <module name="microservice-usuarios" options="-parameters" />
     </option>

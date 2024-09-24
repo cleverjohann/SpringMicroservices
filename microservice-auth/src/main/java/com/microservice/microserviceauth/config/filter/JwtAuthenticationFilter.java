@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (NullPointerException e) {
             throw new NoTokenJwtException("No se ha encontrado el token JWT");
         } catch (ExpiredJwtException e) {
-            throw new TokenExpiradoException("zEl token ha expirado, por favor inicie sesión nuevamente");
+            throw new TokenExpiradoException("El token ha expirado, por favor inicie sesión nuevamente");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.microservice.microserviceusuarios.controller;
 
 import com.microservice.microserviceusuarios.entities.Usuario;
+import com.microservice.microserviceusuarios.entities.dto.UsuarioUpdateDto;
 import com.microservice.microserviceusuarios.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/editar/{id}")
-    public ResponseEntity<Usuario> edit(@PathVariable(name="id") Integer id, @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> edit(@PathVariable(name="id") Integer id, @RequestBody UsuarioUpdateDto usuario) {
         Usuario updated = usuarioService.update(id, usuario);
         return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }

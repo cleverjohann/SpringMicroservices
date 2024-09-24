@@ -45,4 +45,3 @@ public class CategoriaController {
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
-
