@@ -23,6 +23,7 @@ public class CategoriaService implements ICategoriaService {
         return categoriaRepository.save(categoria);
     }
 
+
     @Override
     public CategoriaEntity update(Long id, CategoriaEntity categoria) {
         return categoriaRepository.findById(id).map(categoriaEntity -> {

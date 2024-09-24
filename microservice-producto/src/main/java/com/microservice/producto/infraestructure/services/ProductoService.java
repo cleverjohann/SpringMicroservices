@@ -10,6 +10,7 @@ import com.microservice.producto.domain.repositories.ProductoRepository;
 import com.microservice.producto.infraestructure.abstract_services.IProductoService;
 import com.microservice.producto.mappers.ProductoMapper;
 import com.microservice.producto.util.ProductoNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,54 +20,68 @@ public class ProductoService implements IProductoService {
 
     private final ProductoRepository productoRepository;
     private final CategoriaRepository categoriaRepository;
+    private final ProductoMapper productoMapper;
 
-    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository) {
+    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository, ProductoMapper productoMapper) {
         this.productoRepository = productoRepository;
         this.categoriaRepository = categoriaRepository;
-    }
-
-
-    @Override
-    public ProductoEntity save(ProductoEntity producto) {
-        CategoriaEntity categoria = categoriaRepository.findById(producto.getCategoria().getId())
-                .orElseThrow(() -> new CategoriaNotFoundException("Categoria no encontrada"));
-        producto.setCategoria(categoria);
-        return productoRepository.save(producto);
+        this.productoMapper = productoMapper;
     }
 
     @Override
-public ProductoEntity update(Integer id, ProductoEntity producto) {
-    return productoRepository.findById(id).map(productoEntity -> {
-        // Llamada al microservicio de categoría para obtener la categoría actualizada
-        CategoriaEntity categoria = categoriaRepository.findById(producto.getCategoria().getId())
+    public ProductoResponse createProduct(ProductoRequest productRequest) {
+        CategoriaEntity categoriaEntity = categoriaRepository.findById(productRequest.getCategoriaId())
                 .orElseThrow(() -> new CategoriaNotFoundException("Categoria no encontrada"));
 
-        productoEntity.setNombre(producto.getNombre());
-        productoEntity.setDescripcion(producto.getDescripcion());
-        productoEntity.setPrecio(producto.getPrecio());
-        productoEntity.setStock(producto.getStock());
-        productoEntity.setCategoria(categoria);
-        return productoRepository.save(productoEntity);
-    }).orElseThrow(() -> new ProductoNotFoundException("Producto no encontrado"));
-}
+        //Convertir ProductoRequest a ProductoEntity
+        ProductoEntity productoEntity = productoMapper.toProduct(productRequest);
 
-    @Override
-    public boolean delete(Integer id) {
-        return productoRepository.findById(id).map(productoEntity -> {
-            productoRepository.delete(productoEntity);
-            return true;
-        }).orElseThrow(() -> new ProductoNotFoundException("Producto no encontrado"));
+        //Guardar el producto en la base de datos
+        ProductoEntity productoEntitySaved = productoRepository.save(productoEntity);
+        return productoMapper.toProductResponse(productoEntitySaved);
     }
 
     @Override
-    public ProductoEntity findById(Integer id) {
-        return productoRepository.findById(id).orElse(null);
+    public ProductoResponse getProductById(Long id) {
+        ProductoEntity productoEntity = productoRepository.findById(id)
+                .orElseThrow(() -> new ProductoNotFoundException("Producto no encontrado"));
+        return productoMapper.toProductResponse(productoEntity);
     }
 
     @Override
-    public List<ProductoEntity> findAll() {
-    List<ProductoEntity> productos = productoRepository.findAll();
-    return productoRepository.findAll();
+    public List<ProductoResponse> getAllProducts() {
+        return productoRepository.findAll().stream()
+                .map(productoMapper::toProductResponse)
+                .toList();
+    }
+
+    @Override
+    public ProductoResponse updateProduct(Long id, ProductoRequest productRequest) {
+        //Verificar si la categoria existe
+        CategoriaEntity categoriaEntity = categoriaRepository.findById(productRequest.getCategoriaId())
+                .orElseThrow(() -> new CategoriaNotFoundException("Categoria no encontrada"));
+        //Buscar el producto por su ID
+        ProductoEntity productoEntity = productoRepository.findById(id)
+                .orElseThrow(() -> new ProductoNotFoundException("Producto no encontrado"));
+        //Actualizar los datos del producto
+        productoEntity.setNombre(productRequest.getNombre());
+        productoEntity.setDescripcion(productRequest.getDescripcion());
+        productoEntity.setPrecio(new BigDecimal(productRequest.getPrecio()));
+        productoEntity.setStock(productRequest.getStock());
+        productoEntity.setCategoriaId(productRequest.getCategoriaId());
+
+        //Guardar los cambios en la base de datos
+        ProductoEntity productoEntitySaved = productoRepository.save(productoEntity);
+
+        return productoMapper.toProductResponse(productoEntitySaved);
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        if (!productoRepository.existsById(id)) {
+            throw new ProductoNotFoundException("Producto no encontrado");
+        }
+        productoRepository.deleteById(id);
     }
 
 }

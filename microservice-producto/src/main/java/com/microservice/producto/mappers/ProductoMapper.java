@@ -11,7 +11,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductoMapper  {
 
-    ProductoEntity requestToEntity(ProductoRequest request);
+    // Mapeo de ProductRequest a Product (entidad JPA)
+    ProductoEntity toProduct(ProductoRequest productRequest);
 
-    ProductoResponse entityToResponse(ProductoEntity entity);
+    // Mapeo de Product (entidad JPA) a ProductResponse
+    ProductoResponse toProductResponse(ProductoEntity product);
 }

@@ -4,20 +4,18 @@ import com.microservice.categoria.domain.entities.CategoriaEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 
+
 @Entity
+@Table(name = "productos")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
-@Table(name = "productos")
 public class ProductoEntity {
 
     @Id
@@ -43,55 +41,6 @@ public class ProductoEntity {
     @Column(name = "stock")
     private Integer stock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id", nullable = false)
-    private CategoriaEntity categoria;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public @Size(max = 50) @NotNull String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(@Size(max = 50) @NotNull String nombre) {
-        this.nombre = nombre;
-    }
-
-    public @Size(max = 100) @NotNull String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(@Size(max = 100) @NotNull String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public @NotNull BigDecimal getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(@NotNull BigDecimal precio) {
-        this.precio = precio;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public CategoriaEntity getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(CategoriaEntity categoria) {
-        this.categoria = categoria;
-    }
+    @Column(name = "category_id", nullable = false)
+    private Long categoriaId;
 }

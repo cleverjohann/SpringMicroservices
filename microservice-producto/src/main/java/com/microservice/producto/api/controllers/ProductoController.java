@@ -23,32 +23,62 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    @GetMapping
-    public List<ProductoEntity> findAll() {
-        return productoService.findAll();
+    @PostMapping
+    public ResponseEntity<ProductoResponse> createProduct(@RequestBody ProductoRequest productRequest) {
+        ProductoResponse productoResponse = productoService.createProduct(productRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productoResponse);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoEntity> findById(@PathVariable Integer id) {
-        ProductoEntity entity = productoService.findById(id);
-        return entity != null ? ResponseEntity.ok(entity) : ResponseEntity.notFound().build();
+    public ResponseEntity<ProductoResponse> getProductById(@PathVariable Long id) {
+        ProductoResponse productoResponse = productoService.getProductById(id);
+        return ResponseEntity.ok(productoResponse);
     }
 
-    @PostMapping
-    public ProductoEntity save(@RequestBody ProductoEntity producto) {
-        return productoService.save(producto);
+    @GetMapping
+    public ResponseEntity<List<ProductoResponse>> getAllProducts() {
+        List<ProductoResponse> productoResponses = productoService.getAllProducts();
+        return ResponseEntity.ok(productoResponses);
     }
 
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<ProductoEntity> edit(@PathVariable Integer id, @RequestBody ProductoEntity producto) {
-        ProductoEntity updated = productoService.update(id, producto);
-        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoResponse> updateProduct(@PathVariable Long id, @RequestBody ProductoRequest productRequest) {
+        ProductoResponse productoResponse = productoService.updateProduct(id, productRequest);
+        return ResponseEntity.ok(productoResponse);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        boolean deleted = productoService.delete(id);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productoService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
+
+//    @GetMapping
+//    public List<ProductoEntity> findAll() {
+//        return productoService.findAll();
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ProductoEntity> findById(@PathVariable Integer id) {
+//        ProductoEntity entity = productoService.findById(id);
+//        return entity != null ? ResponseEntity.ok(entity) : ResponseEntity.notFound().build();
+//    }
+//
+//    @PostMapping
+//    public ProductoEntity save(@RequestBody ProductoEntity producto) {
+//        return productoService.save(producto);
+//    }
+//
+//    @PutMapping("/editar/{id}")
+//    public ResponseEntity<ProductoEntity> edit(@PathVariable Integer id, @RequestBody ProductoEntity producto) {
+//        ProductoEntity updated = productoService.update(id, producto);
+//        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+//        boolean deleted = productoService.delete(id);
+//        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+//    }
 
 }
