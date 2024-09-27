@@ -17,15 +17,14 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>microservice-producto</module>
     <module>microservice-gateway</module>
     <module>microservice-eureka</module>
     <module>microservice-config</module>
-    <module>microservice-categoria</module>
     <module>microservice-correo</module>
     <module>microservice-usuarios</module>
     <module>microservice-pedido</module>
     <module>microservice-auth</module>
+    <module>microservice-producto-categoria</module>
   </modules>
 
   <properties>
@@ -41,6 +40,11 @@
         <version>5.11.0</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.13</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

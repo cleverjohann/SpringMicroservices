@@ -69,7 +69,7 @@ public class ProductServiceTest {
         producto.setNombre("Updated Name");
         CategoriaEntity categoria = new CategoriaEntity();
         categoria.setId(1L);
-        producto.setCategoria(categoria);
+        producto.setCategoriaId(categoria.getId());
         ProductoEntity existingProducto = new ProductoEntity();
         existingProducto.setId(Long.valueOf(id));
 
@@ -121,7 +121,7 @@ public class ProductServiceTest {
 
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
 
-        boolean result = productoService.delete(id);
+        boolean result = productoService.deleteProduct(id);
 
         assertTrue(result);
     }
@@ -142,7 +142,7 @@ public class ProductServiceTest {
         ProductoEntity producto = new ProductoEntity();
         producto.setId(id);
 
-        when(productoRepository.findById(Math.toIntExact(id))).thenReturn(Optional.of(producto));
+        when(productoRepository.findById((long) Math.toIntExact(id))).thenReturn(Optional.of(producto));
 
         ProductoEntity result = productoService.findById(Math.toIntExact(id));
 

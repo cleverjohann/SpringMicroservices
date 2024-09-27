@@ -43,4 +43,9 @@ public class ProductoEntity {
 
     @Column(name = "category_id", nullable = false)
     private Long categoriaId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id")
+    private com.microservice.producto_categoria.domain.entities.Categoria categoria;
+
 }

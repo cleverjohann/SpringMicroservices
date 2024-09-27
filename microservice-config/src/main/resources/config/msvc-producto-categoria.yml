@@ -1,6 +1,6 @@
 spring:
   application:
-    name: msvc-categoria
+    name: msvc-producto-categoria
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/microservice-soa-db
@@ -14,7 +14,7 @@ spring:
 
 
 server:
-  port: 8042
+  port: 4050
 
 eureka:
   instance:

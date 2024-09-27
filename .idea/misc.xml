@@ -8,8 +8,13 @@
         <option value="$PROJECT_DIR$/microservice-usuarios/pom.xml" />
         <option value="$PROJECT_DIR$/microservice-auth/pom.xml" />
         <option value="$PROJECT_DIR$/microservice-correo/pom.xml" />
-        <option value="$PROJECT_DIR$/microservice-pedido/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/microservice-categoria/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice-producto/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK" />

@@ -13,11 +13,11 @@ spring:
           enabled: true
       routes:
         - id: productos
-          uri: http://localhost:4030
+          uri: http://localhost:4050
           predicates:
             - Path=/api/productos/**
         - id: categorias
-          uri: http://localhost:8042
+          uri: http://localhost:4050
           predicates:
             - Path=/api/categorias/**
         - id: usuarios
