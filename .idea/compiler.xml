@@ -16,15 +16,6 @@
         <module name="microservice-eureka" />
         <module name="microservice-usuarios" />
       </profile>
-      <profile name="Annotation profile for SpringMicroservices" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
-        </processorPath>
-      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="microservice-categoria" target="17" />
