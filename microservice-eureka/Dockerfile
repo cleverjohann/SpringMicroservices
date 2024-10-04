@@ -1,14 +1,12 @@
-# Usar una imagen base de Java
-FROM openjdk:17-jdk-alpine
-
-# Establecer el directorio de trabajo dentro del contenedor
+# Etapa de construcción
+FROM maven:3.8.1-openjdk-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copiar el archivo JAR del servidor Eureka
-COPY target/microservice-eureka-0.0.1-SNAPSHOT.jar /app/app.jar
-
-# Exponer el puerto 8761, que es el puerto por defecto de Eureka
+# Imagen final
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/microservice-eureka-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
 EXPOSE 8761
-
-# Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]

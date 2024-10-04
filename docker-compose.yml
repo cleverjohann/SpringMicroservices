@@ -11,3 +11,52 @@ services:
       - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U microservice-soa"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  config-server:
+    image: cleverjohann/microservice-config:latest
+    ports:
+      - "8888:8888"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_PROFILES_ACTIVE=git  # Usar el perfil git para obtener las configuraciones desde el repo
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  eureka-server:
+    image: cleverjohann/microservice-eureka:latest
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888  # Importar configuración desde el Config Server
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  producto-categoria-service:
+    image: cleverjohann/microservice-producto-categoria:latest
+    ports:
+      - "8040:8040"  # Mapea el puerto fijo 8040 del contenedor al host
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8040/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

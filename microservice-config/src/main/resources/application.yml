@@ -1,17 +1,15 @@
 server:
-  port: 8888
+  port: 8888  # El puerto en el que correrá el Config Server
 
 spring:
-  config:
-    import: optional:configserver:instead
-  profiles:
-    active: native
-  application:
-    name: config-server
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/config
-      enabled: false
-      
+        git:
+          uri: https://github.com/cleverjohann/repositorio-de-config.git  # Reemplaza con la URL de tu repositorio Git
+          default-label: main  # La rama predeterminada (usualmente 'main' o 'master')
+          search-paths: config  # Si tienes una subcarpeta llamada 'config' dentro del repositorio
+      fail-fast: true  # El Config Server fallará rápidamente si no puede conectarse al repo
+
+application:
+  name: config-server  # Nombre del servicio

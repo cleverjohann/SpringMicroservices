@@ -1,7 +1,14 @@
+server:
+  port: 8761
 
 spring:
   application:
-    name: msvc-eureka
-  config:
-    import: optional:configserver:http://config-service:8888
+    name: msvc-eureka  # Nombre del servicio en Eureka
 
+  config:
+    import: optional:configserver:http://config-server:8888  # Importar la configuración desde el Config Server
+
+eureka:
+  client:
+    register-with-eureka: false  # El servidor de Eureka no se registra a sí mismo
+    fetch-registry: false        # No obtiene el registro de otros servicios, ya que es el servidor central
