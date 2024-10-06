@@ -60,3 +60,71 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  correo-service:
+    image: schulzc/microservice-correo:1
+    ports:
+      - "9031:9031"  # Mapea el puerto fijo 8050 del contenedor al host
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9031/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  usuario-service:
+    image: schulzc/microservice-usuario:1
+    ports:
+      - "9030:9030"  # Mapea el puerto fijo 8050 del contenedor al host
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9030/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    image: schulzc/microservice-auth:3
+    ports:
+      - "9032:9032"  # Mapea el puerto fijo 8050 del contenedor al host
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres
+      - correo-service
+      - usuario-service
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9032/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  carrito-service:
+    image: schulzc/microservice-carrito:6
+    ports:
+      - "9033:9033"  # Mapea el puerto fijo 8050 del contenedor al host
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres
+      - usuario-service
+      - producto-categoria-service
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9033/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

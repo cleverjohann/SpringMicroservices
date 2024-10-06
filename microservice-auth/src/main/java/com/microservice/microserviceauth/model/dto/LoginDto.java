@@ -2,14 +2,14 @@ package com.microservice.microserviceauth.model.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
+import lombok.Data;
 import lombok.Value;
 
 import java.io.Serializable;
 
 
 @Value
-@Getter
+@Data
 public class LoginDto implements Serializable {
     @NotNull
     @Size(max = 50)
