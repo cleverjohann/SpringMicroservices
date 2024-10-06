@@ -54,11 +54,11 @@ class ProductoserviceTest {
     @Test
     void createProductSuccessfully() {
         ProductoRequest request = new ProductoRequest();
-        request.setCategoriaId(1L); // Ensure categoriaId is set
+        request.setCategoriaId(1); // Ensure categoriaId is set
         Categoria categoria = new Categoria();
         Producto producto = new Producto();
         ProductoResponse response = new ProductoResponse();
-        when(categoriaRepository.findById(any(Long.class))).thenReturn(Optional.of(categoria));
+        when(categoriaRepository.findById(any(Integer.class))).thenReturn(Optional.of(categoria));
         when(productoMapper.toEntity(any(ProductoRequest.class), any(Categoria.class))).thenReturn(producto);
         when(productoRepository.save(any(Producto.class))).thenReturn(producto);
         when(productoMapper.toResponse(any(Producto.class))).thenReturn(response);
@@ -66,7 +66,7 @@ class ProductoserviceTest {
         ProductoResponse result = productoService.create(request);
 
         assertEquals(response, result);
-        verify(categoriaRepository, times(1)).findById(any(Long.class));
+        verify(categoriaRepository, times(1)).findById(any(Integer.class));
         verify(productoRepository, times(1)).save(producto);
     }
     /**
@@ -76,11 +76,11 @@ class ProductoserviceTest {
     @Test
     void createProductCategoryNotFound() {
         ProductoRequest request = new ProductoRequest();
-        request.setCategoriaId(2L); // Ensure categoriaId is set
-        when(categoriaRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+        request.setCategoriaId(2); // Ensure categoriaId is set
+        when(categoriaRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> productoService.create(request));
-        verify(categoriaRepository, times(1)).findById(any(Long.class));
+        verify(categoriaRepository, times(1)).findById(any(Integer.class));
     }
     /**
      * Comprueba la actualización correcta de un producto.
@@ -88,14 +88,14 @@ class ProductoserviceTest {
      */
     @Test
     void updateProductSuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         ProductoRequest request = new ProductoRequest();
-        request.setCategoriaId(1L); // Ensure categoriaId is set
+        request.setCategoriaId(1); // Ensure categoriaId is set
         Producto producto = new Producto();
         Categoria categoria = new Categoria();
         ProductoResponse response = new ProductoResponse();
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
-        when(categoriaRepository.findById(any(Long.class))).thenReturn(Optional.of(categoria));
+        when(categoriaRepository.findById(any(Integer.class))).thenReturn(Optional.of(categoria));
         when(productoRepository.save(any(Producto.class))).thenReturn(producto);
         when(productoMapper.toResponse(any(Producto.class))).thenReturn(response);
 
@@ -103,7 +103,7 @@ class ProductoserviceTest {
 
         assertEquals(response, result);
         verify(productoRepository, times(1)).findById(id);
-        verify(categoriaRepository, times(1)).findById(any(Long.class));
+        verify(categoriaRepository, times(1)).findById(any(Integer.class));
         verify(productoRepository, times(1)).save(producto);
     }
     /**
@@ -112,7 +112,7 @@ class ProductoserviceTest {
      */
     @Test
     void updateProductNotFound() {
-        Long id = 1L;
+        Integer id = 1;
         ProductoRequest request = new ProductoRequest();
         when(productoRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -123,18 +123,19 @@ class ProductoserviceTest {
      * Prueba la actualización de un producto cuando no se encuentra la categoría.
      * Asegura que se lanza una RuntimeException.
      */
+
     @Test
     void updateProductCategoryNotFound() {
-        Long id = 1L;
+        Integer id = 1;
         ProductoRequest request = new ProductoRequest();
-        request.setCategoriaId(2L); // Ensure categoriaId is set
+        request.setCategoriaId(2); // Ensure categoriaId is set
         Producto producto = new Producto();
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
-        when(categoriaRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+        when(categoriaRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> productoService.update(id, request));
         verify(productoRepository, times(1)).findById(id);
-        verify(categoriaRepository, times(1)).findById(any(Long.class));
+        verify(categoriaRepository, times(1)).findById(any(Integer.class));
     }
     /**
      * Comprueba la correcta recuperación de un producto por su ID.
@@ -143,7 +144,7 @@ class ProductoserviceTest {
 
     @Test
     void findProductByIdSuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         Producto producto = new Producto();
         ProductoResponse response = new ProductoResponse();
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
@@ -160,7 +161,7 @@ class ProductoserviceTest {
      */
     @Test
     void findProductByIdNotFound() {
-        Long id = 1L;
+        Integer id = 1;
         when(productoRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> productoService.findById(id));
@@ -170,9 +171,10 @@ class ProductoserviceTest {
      * Comprueba la eliminación correcta de un producto por su ID.
      * Asegura que el producto es borrado correctamente.
      */
+
     @Test
     void deleteProductSuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         doNothing().when(productoRepository).deleteById(id);
 
         productoService.delete(id);

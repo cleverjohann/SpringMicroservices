@@ -25,6 +25,7 @@
     <module>microservice-pedido</module>
     <module>microservice-auth</module>
     <module>microservice-producto-categoria</module>
+    <module>microservice-reserva-inventario</module>
   </modules>
 
   <properties>

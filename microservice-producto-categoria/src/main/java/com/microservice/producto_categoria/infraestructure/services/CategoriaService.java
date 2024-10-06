@@ -27,7 +27,7 @@ public class CategoriaService implements ICategoriaService {
     }
 
     @Override
-    public CategoriaResponse update(Long id, CategoriaRequest request) {
+    public CategoriaResponse update(Integer id, CategoriaRequest request) {
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
         categoria.setNombre(request.getNombre());
@@ -36,19 +36,19 @@ public class CategoriaService implements ICategoriaService {
     }
 
     @Override
-    public CategoriaResponse findById(Long id) {
+    public CategoriaResponse findById(Integer id) {
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
         return categoriaMapper.toResponse(categoria);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Integer id) {
         categoriaRepository.deleteById(id);
     }
 
     @Override
-    public CategoriaResponse read(Long id) {
+    public CategoriaResponse read(Integer id) {
         return findById(id);  // Puedes mantener este método para un propósito similar a findById
     }
 

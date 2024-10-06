@@ -53,7 +53,7 @@ class CategoriaServiceTest {
 
     @Test
     void updateCategorySuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         CategoriaRequest request = new CategoriaRequest();
         Categoria categoria = new Categoria();
         CategoriaResponse response = new CategoriaResponse();
@@ -70,7 +70,7 @@ class CategoriaServiceTest {
 
     @Test
     void updateCategoryNotFound() {
-        Long id = 1L;
+        Integer id = 1;
         CategoriaRequest request = new CategoriaRequest();
         when(categoriaRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -80,7 +80,7 @@ class CategoriaServiceTest {
 
     @Test
     void findCategoryByIdSuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         Categoria categoria = new Categoria();
         CategoriaResponse response = new CategoriaResponse();
         when(categoriaRepository.findById(id)).thenReturn(Optional.of(categoria));
@@ -94,7 +94,7 @@ class CategoriaServiceTest {
 
     @Test
     void findCategoryByIdNotFound() {
-        Long id = 1L;
+        Integer id = 1;
         when(categoriaRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> categoriaService.findById(id));
@@ -103,7 +103,7 @@ class CategoriaServiceTest {
 
     @Test
     void deleteCategorySuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         doNothing().when(categoriaRepository).deleteById(id);
 
         categoriaService.delete(id);

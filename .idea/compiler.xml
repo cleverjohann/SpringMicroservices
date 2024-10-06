@@ -10,18 +10,12 @@
         <module name="microservice-gateway" />
         <module name="microservice-carrito" />
         <module name="microservice-pedido" />
-        <module name="microservice-producto-categoria" />
+        <module name="microservice-reserva-inventario" />
         <module name="microservice-auth" />
-        <module name="microservice-config" />
         <module name="microservice-correo" />
-        <module name="microservice-eureka" />
         <module name="microservice-usuarios" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="microservice-categoria" target="17" />
-      <module name="microservice-producto" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -33,6 +27,7 @@
       <module name="microservice-gateway" options="-parameters" />
       <module name="microservice-pedido" options="-parameters" />
       <module name="microservice-producto-categoria" options="-parameters" />
+      <module name="microservice-reserva-inventario" options="-parameters" />
       <module name="microservice-usuarios" options="-parameters" />
     </option>
   </component>

@@ -26,7 +26,7 @@ public class CategoriaController {
 
     // Obtener una categoría por su ID (GET)
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaResponse> obtenerCategoria(@PathVariable Long id) {
+    public ResponseEntity<CategoriaResponse> obtenerCategoria(@PathVariable Integer id) {
         CategoriaResponse categoria = categoriaService.findById(id);
         return new ResponseEntity<>(categoria, HttpStatus.OK);  // HTTP 200 OK
     }
@@ -41,14 +41,14 @@ public class CategoriaController {
     // Actualizar una categoría existente por su ID (PUT)
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaResponse> actualizarCategoria(
-            @PathVariable Long id, @Valid @RequestBody CategoriaRequest request) {
+            @PathVariable Integer id, @Valid @RequestBody CategoriaRequest request) {
         CategoriaResponse categoriaActualizada = categoriaService.update(id, request);
         return new ResponseEntity<>(categoriaActualizada, HttpStatus.OK);  // HTTP 200 OK
     }
 
     // Eliminar una categoría por su ID (DELETE)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarCategoria(@PathVariable Integer id) {
         categoriaService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // HTTP 204 NO CONTENT
     }

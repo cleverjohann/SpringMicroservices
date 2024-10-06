@@ -32,8 +32,8 @@ class CategoriaControllerTest {
     }
 
     @Test
-    void crearCategoria_createsCategorySuccessfully() {
-        CategoriaRequest request = new CategoriaRequest();
+    void crearCategoria_succeedsWithValidRequest() {
+        CategoriaRequest request = new CategoriaRequest(); // Assuming valid request
         CategoriaResponse response = new CategoriaResponse();
         when(categoriaService.create(any(CategoriaRequest.class))).thenReturn(response);
 
@@ -45,8 +45,8 @@ class CategoriaControllerTest {
     }
 
     @Test
-    void obtenerCategoria_returnsCategorySuccessfully() {
-        Long id = 1L;
+    void obtenerCategoria_returnsOkForExistingId() {
+        Integer id = 1;
         CategoriaResponse response = new CategoriaResponse();
         when(categoriaService.findById(id)).thenReturn(response);
 
@@ -58,21 +58,21 @@ class CategoriaControllerTest {
     }
 
     @Test
-    void listarCategorias_returnsListOfCategoriesSuccessfully() {
-        List<CategoriaResponse> responseList = Collections.singletonList(new CategoriaResponse());
-        when(categoriaService.findAll()).thenReturn(responseList);
+    void listarCategorias_returnsListOfCategories() {
+        List<CategoriaResponse> responses = List.of(new CategoriaResponse(), new CategoriaResponse());
+        when(categoriaService.findAll()).thenReturn(responses);
 
         ResponseEntity<List<CategoriaResponse>> result = categoriaController.listarCategorias();
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(responseList, result.getBody());
+        assertEquals(responses, result.getBody());
         verify(categoriaService, times(1)).findAll();
     }
 
     @Test
-    void actualizarCategoria_updatesCategorySuccessfully() {
-        Long id = 1L;
-        CategoriaRequest request = new CategoriaRequest();
+    void actualizarCategoria_succeedsWithValidRequest() {
+        Integer id = 1;
+        CategoriaRequest request = new CategoriaRequest(); // Assuming valid request
         CategoriaResponse response = new CategoriaResponse();
         when(categoriaService.update(eq(id), any(CategoriaRequest.class))).thenReturn(response);
 
@@ -84,8 +84,8 @@ class CategoriaControllerTest {
     }
 
     @Test
-    void eliminarCategoria_deletesCategorySuccessfully() {
-        Long id = 1L;
+    void eliminarCategoria_succeedsForExistingId() {
+        Integer id = 1;
         doNothing().when(categoriaService).delete(id);
 
         ResponseEntity<Void> result = categoriaController.eliminarCategoria(id);

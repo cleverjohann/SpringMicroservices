@@ -128,3 +128,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  reserva-inventario-service:
+    image: cleverjohann/microservice-reserva-inventario:latest
+    ports:
+      - "8041:8041"  # Mapea el puerto fijo 8040 del contenedor al host
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8041/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

@@ -19,5 +19,5 @@ public class ProductoRequest {
     private Integer stock;
 
     @NotNull(message = "La categoría es obligatoria")
-    private Long categoriaId;
+    private Integer categoriaId;
 }

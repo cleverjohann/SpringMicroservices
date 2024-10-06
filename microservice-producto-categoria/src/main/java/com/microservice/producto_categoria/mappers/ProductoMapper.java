@@ -26,6 +26,7 @@ public class ProductoMapper {
         response.setDescripcion(producto.getDescripcion());
         response.setPrecio(producto.getPrecio());
         response.setStock(producto.getStock());
+        response.setAgotado(producto.getStock() == 0);
 
         CategoriaResponse categoriaResponse = new CategoriaResponse();
         categoriaResponse.setId(producto.getCategoria().getId());

@@ -46,7 +46,7 @@ class ProductoControllerTest {
 
     @Test
     void obtenerProducto_returnsProductSuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         ProductoResponse response = new ProductoResponse();
         when(productoService.findById(id)).thenReturn(response);
 
@@ -71,7 +71,7 @@ class ProductoControllerTest {
 
     @Test
     void actualizarProducto_updatesProductSuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         ProductoRequest request = new ProductoRequest();
         ProductoResponse response = new ProductoResponse();
         when(productoService.update(eq(id), any(ProductoRequest.class))).thenReturn(response);
@@ -85,7 +85,7 @@ class ProductoControllerTest {
 
     @Test
     void eliminarProducto_deletesProductSuccessfully() {
-        Long id = 1L;
+        Integer id = 1;
         doNothing().when(productoService).delete(id);
 
         ResponseEntity<Void> result = productoController.eliminarProducto(id);

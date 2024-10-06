@@ -31,7 +31,7 @@ public class Productoservice implements IProductoService {
     }
 
     @Override
-    public ProductoResponse update(Long id, ProductoRequest request) {
+    public ProductoResponse update(Integer id, ProductoRequest request) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
@@ -47,19 +47,19 @@ public class Productoservice implements IProductoService {
     }
 
     @Override
-    public ProductoResponse findById(Long id) {
+    public ProductoResponse findById(Integer id) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         return productoMapper.toResponse(producto);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Integer id) {
         productoRepository.deleteById(id);
     }
 
     @Override
-    public ProductoResponse read(Long id) {
+    public ProductoResponse read(Integer id) {
         return findById(id);
     }
     @Override
@@ -70,4 +70,29 @@ public class Productoservice implements IProductoService {
                 .map(productoMapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+    // Nuevo método para actualizar solo el stock de un producto
+    public ProductoResponse updateStock(Integer id, int stock) {
+        var producto = productoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+
+        producto.setStock(stock);
+
+        if (stock == 0) {
+            producto.setAgotado(true);
+        } else {
+            producto.setAgotado(false);
+        }
+
+        productoRepository.save(producto);
+        return productoMapper.toResponse(producto);
+    }
+    // Nuevo método para buscar productos con stock bajo
+    public List<ProductoResponse> findProductosBajoStock(int limite) {
+    return productoRepository.findByStockLessThanEqual(limite)
+            .stream()
+            .map(productoMapper::toResponse)
+            .collect(Collectors.toList());
+    }
+
 }
