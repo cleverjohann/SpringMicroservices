@@ -8,10 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-gateway" />
+        <module name="microservice-carrito" />
         <module name="microservice-pedido" />
         <module name="microservice-producto-categoria" />
-        <module name="microservice-config" />
         <module name="microservice-auth" />
+        <module name="microservice-config" />
         <module name="microservice-correo" />
         <module name="microservice-eureka" />
         <module name="microservice-usuarios" />
@@ -19,23 +20,18 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="microservice-categoria" target="17" />
-      <module name="microservice-curso" target="17" />
-      <module name="microservice-estudent" target="17" />
       <module name="microservice-producto" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="microservice-auth" options="-parameters" />
-      <module name="microservice-categoria" options="-parameters" />
+      <module name="microservice-carrito" options="-parameters" />
       <module name="microservice-config" options="-parameters" />
       <module name="microservice-correo" options="-parameters" />
-      <module name="microservice-curso" options="-parameters" />
-      <module name="microservice-estudent" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
       <module name="microservice-pedido" options="-parameters" />
-      <module name="microservice-producto" options="-parameters" />
       <module name="microservice-producto-categoria" options="-parameters" />
       <module name="microservice-usuarios" options="-parameters" />
     </option>

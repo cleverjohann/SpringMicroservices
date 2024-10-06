@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "msvc-usuario", url = "localhost:9030")
+@FeignClient(name = "msvc-usuario", url = "usuario-service:9030")
 public interface UsuarioCliente {
 
     @PutMapping("/api/usuarios/editar/{id}")
