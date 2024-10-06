@@ -42,28 +42,38 @@ public class CarritoServiceImpl implements ICarritoService {
 
     @Override
     public Carrito aplicarCupon(Integer id_carrito, String codigoDescuento) {
-        //Buscamos el carrito
+        // Buscamos el carrito
         Carrito carrito = carritoRepository.findById(id_carrito).orElse(null);
-        assert carrito != null;
-
-        //Buscamos el cupon
-        Cupone descuento = cuponService.findByCodigo(codigoDescuento);
-        //Verificamos que el cupon este activo
-        if (descuento.getEstado().equalsIgnoreCase("ACTIVO")) {
-            //Obtenemos el subtotal del carrito
-            BigDecimal subTotal = carrito.getSubtotal();
-
-            //Hacemos el calculo del descuento
-            BigDecimal subTotalConDescuento = subTotal.subtract(descuento.getValorDescuento());
-
-
-            carrito.setSubtotal(subTotal);
-            carrito.setDescuento(descuento.getValorDescuento());
-            carrito.setTotal(subTotalConDescuento);
-            //Guardamos el carrito
-            return carritoRepository.save(carrito);
+        if (carrito == null) {
+            throw new IllegalArgumentException("Carrito no encontrado");
         }
-        return null;
+
+        // Verificamos que el subtotal del carrito sea mayor que cero
+        BigDecimal subTotal = carrito.getSubtotal();
+        if (subTotal.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El subtotal del carrito debe ser mayor que cero");
+        }
+
+        // Buscamos el cupon
+        Cupone descuento = cuponService.findByCodigo(codigoDescuento);
+        if (descuento == null) {
+            throw new IllegalArgumentException("Cupón no encontrado");
+        }
+
+        // Verificamos que el cupon esté activo
+        if (!descuento.getEstado().equalsIgnoreCase("ACTIVO")) {
+            throw new IllegalArgumentException("Cupón no está activo");
+        }
+
+        // Hacemos el cálculo del descuento
+        BigDecimal subTotalConDescuento = subTotal.subtract(descuento.getValorDescuento());
+
+        carrito.setSubtotal(subTotal);
+        carrito.setDescuento(descuento.getValorDescuento());
+        carrito.setTotal(subTotalConDescuento);
+
+        // Guardamos el carrito
+        return carritoRepository.save(carrito);
     }
 
     @Override

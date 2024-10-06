@@ -25,18 +25,12 @@ public class DetalleCarritoServiceImpl implements IDetalleCarritoService {
 
     @Override
     public DetalleCarrito agregarProducto(DetalleCarrito detalleCarrito) {
-        //Obtenemos el monto del detalle carrito que se acaba de agregar
+        //Obtenemos el monto del detalle carrito que se va a agregar
         BigDecimal montoDetalle = detalleCarrito.getProducto().getPrecio().multiply(BigDecimal.valueOf(detalleCarrito.getCantidad()));
-        //Obtenemos el subtotal actual del carrito
+        //obtenemos el carrito
         Carrito carrito = detalleCarrito.getCarrito();
-        BigDecimal subTotal = carrito.getSubtotal();
-        //Sumamos el monto del detalle al subtotal
-        subTotal = subTotal.add(montoDetalle);
-        //Actualizamos el subtotal del carrito
-        carrito.setSubtotal(subTotal);
-        //Guardamos el carrito
-        carritoService.save(carrito);
-        //Luego de agregar el producto al carrito, se debe de actualizar el subtotal del carrito
+        //Obtenemos el subtotal actual del carrito
+        actualizarSubtotal(carrito, montoDetalle, true);  // True porque estamos sumando al subtotal
         return detalleCarritoRepository.save(detalleCarrito);
     }
 
@@ -47,23 +41,26 @@ public class DetalleCarritoServiceImpl implements IDetalleCarritoService {
         //obtenemos el carrito
         Carrito carrito = detalleCarrito.getCarrito();
         //Obtenemos el subtotal actual del carrito
-        BigDecimal subTotal = carrito.getSubtotal();
-        //Restamos el monto del detalle al subtotal
-        subTotal = subTotal.subtract(montoDetalle);
-        //Actualizamos el subtotal del carrito
-        carrito.setSubtotal(subTotal);
-        //Guardamos el carrito
-        carritoService.save(carrito);
-        //Borramos el detalle del carrito
+        actualizarSubtotal(carrito, montoDetalle, false);  // False porque estamos restando del subtotal
         detalleCarritoRepository.delete(detalleCarrito);
     }
 
     @Override
     public DetalleCarrito actualizarCantidadProducto(Integer id, Integer cantidad) {
-        //Buscamos el detalle del carrito
+        // Obtenemos el detalle del carrito
         DetalleCarrito detalleCarrito = detalleCarritoRepository.findById(id).orElse(null);
         assert detalleCarrito != null;
+        // Obtenemos el monto anterior y el nuevo
+        BigDecimal montoDetalleAnterior = detalleCarrito.getProducto().getPrecio().multiply(BigDecimal.valueOf(detalleCarrito.getCantidad()));
         detalleCarrito.setCantidad(cantidad);
+        // Obtenemos el monto nuevo
+        BigDecimal montoDetalleNuevo = detalleCarrito.getProducto().getPrecio().multiply(BigDecimal.valueOf(detalleCarrito.getCantidad()));
+        // Obtenemos el carrito
+        Carrito carrito = detalleCarrito.getCarrito();
+        // Restamos el monto anterior y sumamos el nuevo
+        actualizarSubtotal(carrito, montoDetalleAnterior, false);  // Restamos el anterior
+        actualizarSubtotal(carrito, montoDetalleNuevo, true);  // Sumamos el nuevo
+
         return detalleCarritoRepository.save(detalleCarrito);
     }
 
@@ -76,8 +73,26 @@ public class DetalleCarritoServiceImpl implements IDetalleCarritoService {
     public void vaciarCarrito(Integer id_carrito) {
         //Buscamos todos los detalles del carrito
         List<DetalleCarrito> detalleCarritoList = detalleCarritoRepository.findAllByCarrito_Id(id_carrito);
+        //Obtenemos el carrito y ponemos todo en 0
+        Carrito carrito = detalleCarritoList.get(1).getCarrito();
+        carrito.setTotal(BigDecimal.ZERO);
+        carrito.setSubtotal(BigDecimal.ZERO);
+        carrito.setDescuento(BigDecimal.ZERO);
+        //Guardamos el carrito
+        carritoService.save(carrito);
         //Borramos todos los detalles del carrito
         detalleCarritoRepository.deleteAll(detalleCarritoList);
+    }
+
+    private void actualizarSubtotal(Carrito carrito, BigDecimal monto, boolean sumar) {
+        BigDecimal subTotal = carrito.getSubtotal();
+        if (sumar) {
+            subTotal = subTotal.add(monto);
+        } else {
+            subTotal = subTotal.subtract(monto);
+        }
+        carrito.setSubtotal(subTotal);
+        carritoService.save(carrito);
     }
 
 }
