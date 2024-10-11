@@ -1,8 +1,8 @@
 package com.microservice.microservicepedido.service;
 
 import com.microservice.microservicepedido.model.Pedido;
+import com.microservice.microservicepedido.model.Usuario;
 import com.microservice.microservicepedido.repository.PedidoRepository;
-import com.microservice.microserviceusuarios.entities.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +27,10 @@ public class PedidoServiceImpl implements IPedidoService {
     @Override
     public Pedido findById(Integer id) {
         return pedidoRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public String consultarEstadoPedido(Integer id) {
+        return pedidoRepository.findById(id).get().getEstado();
     }
 }

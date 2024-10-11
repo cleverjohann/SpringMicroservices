@@ -22,7 +22,7 @@ public class DetalleCarrito {
 
     @JsonIgnore
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "carrito_id", nullable = false)
     private Carrito carrito;

@@ -11,9 +11,12 @@
         <module name="microservice-carrito" />
         <module name="microservice-pedido" />
         <module name="microservice-reserva-inventario" />
+        <module name="microservice-producto-categoria" />
         <module name="microservice-auth" />
+        <module name="microservice-config" />
         <module name="microservice-correo" />
         <module name="microservice-usuarios" />
+        <module name="microservice-eureka" />
       </profile>
     </annotationProcessing>
   </component>
