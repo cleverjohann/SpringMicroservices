@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -95,14 +96,24 @@ public class InventarioService {
     /**
      * Liberar una reserva de inventario.
      */
-    public void liberarInventario(Long reservaId) {
+    public int liberarInventario(Long reservaId) {
         // Buscar la reserva por ID
         ReservaInventario reserva = reservaInventarioRepository.findById(reservaId)
                 .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
 
+        // Obtener la cantidad de stock reservada
+        int cantidadLiberada = reserva.getCantidad();
+
         // Marcar la reserva como cancelada
         reserva.setEstado("Cancelado");
         reservaInventarioRepository.save(reserva);
+
+        // Devolver la cantidad de stock liberada al producto
+        ProductoResponse producto = productoClient.obtenerProductoPorId(reserva.getProductoId());
+        productoClient.actualizarStockProducto(reserva.getProductoId(), producto.getStock() + cantidadLiberada);
+
+        // Devolver la cantidad de stock liberada
+        return cantidadLiberada;
     }
 
     /**
@@ -115,4 +126,11 @@ public class InventarioService {
         // Marcar el producto como agotado y poner el stock a 0
         return productoClient.actualizarStockProducto(productoId.intValue(), 0);
     }
+    /**
+     * Listar todas las reservas del inventario.
+     */
+    public List<ReservaInventario> listarReservas() {
+        return reservaInventarioRepository.findAll();
+    }
+
 }

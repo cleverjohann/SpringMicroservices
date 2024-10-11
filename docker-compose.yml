@@ -108,7 +108,7 @@ services:
   reserva-inventario-service:
     image: cleverjohann/microservice-reserva-inventario:latest
     ports:
-      - "8041:8041"  # Mapea el puerto fijo 8040 del contenedor al host
+      - "8041:8041"  # Mapea el puerto fijo 8041 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
