@@ -1,5 +1,6 @@
 package com.microservice.microservicecarrito.service.impl;
 
+import com.microservice.microservicecarrito.client.InventarioCliente;
 import com.microservice.microservicecarrito.model.Carrito;
 import com.microservice.microservicecarrito.model.DetalleCarrito;
 import com.microservice.microservicecarrito.repository.DetalleCarritoRepository;
@@ -17,6 +18,7 @@ public class DetalleCarritoServiceImpl implements IDetalleCarritoService {
 
     private final DetalleCarritoRepository detalleCarritoRepository;
     private final ICarritoService carritoService;
+    private final InventarioCliente inventarioCliente;
 
     @Override
     public List<DetalleCarrito> obtenerDetalleCarritoPorIdCarrito(Integer id_carrito) {
@@ -31,6 +33,8 @@ public class DetalleCarritoServiceImpl implements IDetalleCarritoService {
         Carrito carrito = detalleCarrito.getCarrito();
         //Obtenemos el subtotal actual del carrito
         actualizarSubtotal(carrito, montoDetalle, true);  // True porque estamos sumando al subtotal
+        //Actualizar el stock a a traves de inventarioCliente
+        inventarioCliente.reducirExistencias(Long.valueOf(detalleCarrito.getProducto().getId()), detalleCarrito.getCantidad());
         return detalleCarritoRepository.save(detalleCarrito);
     }
 
@@ -43,6 +47,8 @@ public class DetalleCarritoServiceImpl implements IDetalleCarritoService {
         //Obtenemos el subtotal actual del carrito
         actualizarSubtotal(carrito, montoDetalle, false);  // False porque estamos restando del subtotal
         detalleCarritoRepository.delete(detalleCarrito);
+        //Actualizar el stock a a traves de inventarioCliente
+        inventarioCliente.agregarExistencias(Long.valueOf(detalleCarrito.getProducto().getId()), detalleCarrito.getCantidad());
     }
 
     @Override

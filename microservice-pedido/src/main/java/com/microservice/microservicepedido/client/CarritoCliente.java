@@ -1,16 +1,16 @@
 package com.microservice.microservicepedido.client;
 
-import com.microservice.microservicepedido.model.Usuario;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Map;
 
-@FeignClient(name = "msvc-usuario", url = "usuario-service:9030")
-public interface UsuarioCliente {
+@FeignClient(name = "msvc-carrito", url = "carrito-service:9033")
+public interface CarritoCliente {
 
-    @GetMapping("/api/usuarios/findById/{id}")
-    ResponseEntity<Usuario> findById(@PathVariable(name = "id") String id);
+    @GetMapping("/api/carrito/consultar/{id}")
+    ResponseEntity<Map<String, Object>> consultarCarrito(@PathVariable(name = "id") Integer id);
 
 }

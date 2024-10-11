@@ -1,6 +1,6 @@
 package com.microservice.microservicepedido.model;
 
-import com.microservice.microserviceusuarios.entities.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,17 +13,24 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "pedidos")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedidos_id_gen")
     @SequenceGenerator(name = "pedidos_id_gen", sequenceName = "pedidos_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
+
+    @JsonIgnore
+    @NotNull
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
     @NotNull
     @Column(name = "fecha_pedido", nullable = false)
@@ -42,15 +49,14 @@ public class Pedido {
     @Column(name = "direccion_envio")
     private String direccionEnvio;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
-
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "codigo_cupon")
+    private Cupone codigoCupon;
 
     @PrePersist
     public void prePersist() {
+        this.estado = "PENDIENTE";
         this.fechaPedido = LocalDate.now();
     }
 

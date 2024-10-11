@@ -1,28 +1,9 @@
 version: '3.8'
 services:
-  postgres:
-    image: postgres:latest
-    container_name: postgres
-    environment:
-      POSTGRES_USER: microservice-soa
-      POSTGRES_PASSWORD: kiones
-      POSTGRES_DB: microservice-soa-db
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U microservice-soa"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   config-server:
     image: cleverjohann/microservice-config:latest
     ports:
       - "8888:8888"
-    depends_on:
-      - postgres
     environment:
       - SPRING_PROFILES_ACTIVE=git  # Usar el perfil git para obtener las configuraciones desde el repo
     healthcheck:
@@ -52,7 +33,6 @@ services:
     depends_on:
       - eureka-server
       - config-server
-      - postgres
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
@@ -68,7 +48,6 @@ services:
     depends_on:
       - eureka-server
       - config-server
-      - postgres
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
@@ -84,7 +63,6 @@ services:
     depends_on:
       - eureka-server
       - config-server
-      - postgres
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
@@ -100,7 +78,6 @@ services:
     depends_on:
       - eureka-server
       - config-server
-      - postgres
       - correo-service
       - usuario-service
     environment:
@@ -112,13 +89,12 @@ services:
       retries: 5
 
   carrito-service:
-    image: schulzc/microservice-carrito:7
+    image: schulzc/microservice-carrito:8
     ports:
       - "9033:9033"  # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
-      - postgres
       - usuario-service
       - producto-categoria-service
     environment:
@@ -136,11 +112,27 @@ services:
     depends_on:
       - eureka-server
       - config-server
-      - postgres
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8041/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pedido-service:
+    image: schulzc/microservice-pedido:8
+    ports:
+      - "9034:9034"  # Mapea el puerto fijo 8050 del contenedor al host
+    depends_on:
+      - eureka-server
+      - config-server
+      - usuario-service
+      - carrito-service
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9034/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5

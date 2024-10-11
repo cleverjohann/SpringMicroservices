@@ -3,7 +3,7 @@
   <component name="JpaBuddyIdeaProjectConfig" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository">
     <option name="defaultUnitInitialized" value="true" />
     <option name="newEntityIdStrategy" value="Identity" />
-    <option name="reLastEntityCreationPackage" value="microservice-carrito/src/main/java/com/microservice/microservicecarrito/model" />
+    <option name="reLastEntityCreationPackage" value="microservice-pedido/src/main/java/com/microservice/microservicepedido/model" />
     <option name="renamerInitialized" value="true" />
     <option name="reverseEngineeringLastDbConnectionId" value="5c7ff5dc-5277-4dcd-9d1a-afc5917a3db9" />
   </component>

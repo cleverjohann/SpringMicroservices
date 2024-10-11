@@ -1,7 +1,8 @@
 package com.microservice.microservicepedido.service;
 
 import com.microservice.microservicepedido.model.Pedido;
-import com.microservice.microserviceusuarios.entities.Usuario;
+import com.microservice.microservicepedido.model.Usuario;
+
 
 import java.util.List;
 
@@ -12,5 +13,7 @@ public interface IPedidoService {
     Pedido save(Pedido pedido);
 
     Pedido findById(Integer id);
+
+    String consultarEstadoPedido(Integer id);
 
 }
