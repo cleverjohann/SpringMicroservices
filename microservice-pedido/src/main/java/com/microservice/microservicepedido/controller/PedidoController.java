@@ -2,15 +2,18 @@ package com.microservice.microservicepedido.controller;
 
 import com.microservice.microservicepedido.client.CarritoCliente;
 import com.microservice.microservicepedido.client.UsuarioCliente;
+import com.microservice.microservicepedido.model.Carrito;
 import com.microservice.microservicepedido.model.Cupone;
 import com.microservice.microservicepedido.model.Pedido;
 import com.microservice.microservicepedido.model.Usuario;
+import com.microservice.microservicepedido.model.dto.CarritoResponseDto;
 import com.microservice.microservicepedido.model.dto.PedidoDto;
 import com.microservice.microservicepedido.model.dto.PedidoResponseDto;
 import com.microservice.microservicepedido.model.dto.UsuarioDto;
 import com.microservice.microservicepedido.service.ICuponService;
 import com.microservice.microservicepedido.service.IPedidoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/pedido")
 @RequiredArgsConstructor
+@Log
 public class PedidoController {
 
     private final IPedidoService pedidoService;
@@ -121,6 +125,9 @@ public class PedidoController {
     @PostMapping("/crear")
     public ResponseEntity<?> crear(@RequestBody PedidoDto dto) {
         response.clear();
+
+        CarritoResponseDto carrito = null;
+
         //Buscamos el usuario por id
         Usuario usuario = comprobarUsuario(dto.getId_usuario());
         if (usuario == null) {
@@ -129,39 +136,43 @@ public class PedidoController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
-
-        //Validamos el cupon
-        Cupone cupon = cuponService.findByCodigo(dto.getCodigoCupon());
-
-        if (cupon == null) {
-            response.put("message", "Cupón no válido");
-            response.put("status", HttpStatus.BAD_REQUEST);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        Cupone cupon = null;
+        if (!dto.getCodigoCupon().isEmpty()) {
+            //Validamos el cupon
+            cupon = cuponService.findByCodigo(dto.getCodigoCupon());
+            if (cupon == null) {
+                response.put("message", "Cupón no válido");
+                response.put("status", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
         }
 
-        BigDecimal total = BigDecimal.ZERO;
+        BigDecimal total;
 
         // Validamos el carrito
         try {
-            ResponseEntity<Map<String, Object>> respuesta = carritoCliente.consultarCarrito(Integer.valueOf(dto.getId_carrito()));
-            if (respuesta.getStatusCode().is2xxSuccessful()) {
-                Map<String, Object> body = respuesta.getBody();
+            ResponseEntity<CarritoResponseDto> carritoResponse = carritoCliente.consultarCarrito(Integer.parseInt(dto.getId_carrito()));
+            carrito = carritoResponse.getBody();
+            log.info("Carrito: " + carrito);
 
-                if (body != null && body.containsKey("carrito")) {
-                    Map<String, Object> carrito = (Map<String, Object>) body.get("carrito");
-
-                    if (carrito.containsKey("total")) {
-                        // Convertir el total de Double a BigDecimal
-                        Double totalDouble = (Double) carrito.get("total");
-                        total = BigDecimal.valueOf(totalDouble);
-                    }
-                }
+            if (carrito == null || !carrito.getStatus().equals("OK")) {
+                response.put("message", "Carrito no encontrado o no válido");
+                response.put("status", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
+
+            total = BigDecimal.valueOf(carrito.getCarrito().getTotal());
+
         } catch (Exception e) {
             response.put("message", "Error al consultar el carrito: " + e.getMessage());
             response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        //Creamos el carrito
+        Carrito carritoSave = Carrito.builder()
+                .id(Integer.parseInt(dto.getId_carrito()))
+                .build();
 
 
         //Creamos el pedido
@@ -170,9 +181,10 @@ public class PedidoController {
                 .direccionEnvio(dto.getDireccionEnvio())
                 .usuario(usuario)
                 .codigoCupon(cupon)
+                .idCarrito(carritoSave)
                 .build();
 
-        response.put("data", pedidoService.save(pedido));
+        response.put("data", pedidoService.crearPedido(pedido, carrito));
         response.put("status", HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
