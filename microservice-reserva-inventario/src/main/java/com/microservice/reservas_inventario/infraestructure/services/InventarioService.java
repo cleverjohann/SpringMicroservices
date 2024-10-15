@@ -1,7 +1,9 @@
 package com.microservice.reservas_inventario.infraestructure.services;
 
 import com.microservice.reservas_inventario.api.domain.request.ReservaRequest;
+import com.microservice.reservas_inventario.api.domain.response.PedidoResponse;
 import com.microservice.reservas_inventario.api.domain.response.ProductoResponse;
+import com.microservice.reservas_inventario.client.PedidoClient;
 import com.microservice.reservas_inventario.client.ProductoClient;
 import com.microservice.reservas_inventario.domain.entities.ReservaInventario;
 import com.microservice.reservas_inventario.domain.repositories.ReservaInventarioRepository;
@@ -18,6 +20,7 @@ public class InventarioService {
 
     private final ReservaInventarioRepository reservaInventarioRepository;
     private final ProductoClient productoClient;
+    private final PedidoClient pedidoClient;
 
     /**
      * Agregar existencias a un producto.
@@ -70,6 +73,9 @@ public class InventarioService {
      * Reservar inventario para un pedido.
      */
     public ReservaInventario reservarInventario(ReservaRequest request) {
+        // Obtener información del pedido desde el microservicio de pedidos
+        PedidoResponse pedido = pedidoClient.obtenerPedidoPorId(request.getPedidoId());
+
         // Obtener información del producto desde el microservicio de productos
         ProductoResponse producto = productoClient.obtenerProductoPorId(request.getProductoId());
 
