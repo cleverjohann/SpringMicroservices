@@ -54,6 +54,10 @@ public class Pedido {
     @JoinColumn(name = "codigo_cupon")
     private Cupone codigoCupon;
 
+    @ManyToOne
+    @JoinColumn(name = "id_carrito")
+    private Carrito idCarrito;
+
     @PrePersist
     public void prePersist() {
         this.estado = "PENDIENTE";

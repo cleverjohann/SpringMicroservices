@@ -3,9 +3,9 @@ spring:
     name: msvc-producto-categoria
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/microservice-soa-db
-    username: microservice-soa
-    password: kiones
+    url: jdbc:postgresql://soa.c904q64o6yfq.us-east-2.rds.amazonaws.com:5432/soa  # Nueva URL de la base de datos
+    username: postgres
+    password: admin123
   jpa:
     hibernate:
       ddl-auto: update

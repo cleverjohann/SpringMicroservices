@@ -89,7 +89,7 @@ services:
       retries: 5
 
   carrito-service:
-    image: schulzc/microservice-carrito:8
+    image: schulzc/microservice-carrito:9
     ports:
       - "9033:9033"  # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
@@ -121,7 +121,7 @@ services:
       retries: 5
 
   pedido-service:
-    image: schulzc/microservice-pedido:8
+    image: schulzc/microservice-pedido:18
     ports:
       - "9034:9034"  # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:

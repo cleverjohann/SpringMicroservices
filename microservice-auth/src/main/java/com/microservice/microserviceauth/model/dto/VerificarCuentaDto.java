@@ -1,8 +1,8 @@
 package com.microservice.microserviceauth.model.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class VerificarCuentaDto {
 
     private String correo;

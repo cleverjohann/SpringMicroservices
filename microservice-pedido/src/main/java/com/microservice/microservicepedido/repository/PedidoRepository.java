@@ -12,4 +12,9 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     @Query("SELECT p FROM Pedido p WHERE p.usuario= :usuario")
     List<Pedido> findAllByUsuarioId(Usuario usuario);
 
+    @Query("SELECT p FROM Pedido p WHERE p.estado= :enProceso")
+    List<Pedido> findAllByEstado(String enProceso);
+
+    @Query("SELECT p FROM Pedido p WHERE p.estado= :enProceso AND p.usuario.id= :idUsuario")
+    List<Pedido> findAllByEstadoAndIdUsuario(String enProceso, Integer idUsuario);
 }
