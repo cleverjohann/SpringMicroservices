@@ -1,8 +1,8 @@
 package com.microservice.microservicecarrito.model.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class UsuarioIdDto {
 
     private String usuario_id;

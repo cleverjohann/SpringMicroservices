@@ -41,7 +41,7 @@ public class AuthenticationServiceImpl implements IAuthenticacionService {
                 .compact();
     }
 
-    private SecretKey getKey() {
+    public SecretKey getKey() {
         return Keys.hmacShaKeyFor(key.getEncoded());
     }
 
@@ -64,6 +64,7 @@ public class AuthenticationServiceImpl implements IAuthenticacionService {
         return Jwts
                 .parser()//Creamos el parser
                 .verifyWith(getKey()) // Verificamos con la clave secreta
+                .clockSkewSeconds(60)
                 .build()//Construimos
                 .parseSignedClaims(token)//Decodificamos el token y verificamos si la firma es correcta
                 .getPayload();//Obtenemos los claims

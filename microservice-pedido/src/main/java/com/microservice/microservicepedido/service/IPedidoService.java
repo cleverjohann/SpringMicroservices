@@ -15,8 +15,11 @@ public interface IPedidoService {
 
     Pedido save(Pedido pedido);
 
+    void delete(Pedido pedido);
+
     Pedido findById(Integer id);
 
     String consultarEstadoPedido(Integer id);
 
+    List<Pedido> findAllByEstadoAndIdUsuario(String enProceso, Integer idUsuario);
 }

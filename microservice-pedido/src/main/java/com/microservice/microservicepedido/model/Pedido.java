@@ -54,7 +54,7 @@ public class Pedido {
     @JoinColumn(name = "codigo_cupon")
     private Cupone codigoCupon;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_carrito")
     private Carrito idCarrito;
 
