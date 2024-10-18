@@ -8,7 +8,6 @@ import lombok.Value;
 import java.io.Serializable;
 
 
-@Value
 @Data
 public class LoginDto implements Serializable {
     @NotNull

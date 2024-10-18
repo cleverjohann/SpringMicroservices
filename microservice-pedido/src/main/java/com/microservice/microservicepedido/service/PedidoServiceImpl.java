@@ -47,7 +47,7 @@ public class PedidoServiceImpl implements IPedidoService {
                 reservaRequest.setPedidoId(nuevoPedido.getId());
                 log.info("Reservando inventario para producto: " + detalle.getProducto().getId());
                 ResponseEntity<ReservaInventario> reservaInventarioResponseEntity = inventarioCliente.reservarInventario(reservaRequest);
-                assert false;
+
                 log.info("Reserva exitosa para producto: " + detalle.getProducto().getId());
                 reservas.add(reservaInventarioResponseEntity.getBody());
             } catch (Exception e) {
@@ -79,12 +79,21 @@ public class PedidoServiceImpl implements IPedidoService {
     }
 
     @Override
-    public Pedido findById(Integer id) {
+    public void delete(Pedido pedido) {
+        pedidoRepository.delete(pedido);
+    }
+
+    @Override public Pedido findById(Integer id) {
         return pedidoRepository.findById(id).orElse(null);
     }
 
     @Override
     public String consultarEstadoPedido(Integer id) {
         return pedidoRepository.findById(id).get().getEstado();
+    }
+
+    @Override
+    public List<Pedido> findAllByEstadoAndIdUsuario(String enProceso, Integer idUsuario) {
+        return pedidoRepository.findAllByEstadoAndIdUsuario(enProceso,idUsuario);
     }
 }

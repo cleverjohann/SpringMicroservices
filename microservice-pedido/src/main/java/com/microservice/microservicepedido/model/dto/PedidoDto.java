@@ -1,8 +1,8 @@
 package com.microservice.microservicepedido.model.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class PedidoDto {
 
     private String id_usuario;

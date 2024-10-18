@@ -17,10 +17,12 @@ public class CodigoYCorreo {
 
 
     public void enviarCodigo(String correo) {
+
         Random random = new Random();
         String numero = String.valueOf(random.nextInt(900000) + 100000);
         codigoServiceIntermedio.setCodigo(numero);
         correoCliente.enviarCorreo(new CorreoClientDto(correo, "Codigo de verificación", "Su código de verificación es: " + numero));
+
     }
 
 }
