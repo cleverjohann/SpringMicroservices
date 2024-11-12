@@ -1,5 +1,7 @@
 package com.microservice.pagos.services;
 
+import com.microservice.pagos.api.models.UsuarioResponse;
+import com.microservice.pagos.client.UsuarioClient;
 import com.microservice.pagos.domain.entities.Pago;
 import com.microservice.pagos.domain.repositories.MetodoPagoRepository;
 import com.microservice.pagos.domain.repositories.PagoRepository;
@@ -13,6 +15,7 @@ import java.util.List;
 public class PagoServiceImpl implements PagoServices {
     private final PagoRepository pagoRepository;
     private final MetodoPagoRepository metodoPagoRepository;
+    private final UsuarioClient usuarioClient;
 
     @Override
     public Pago iniciarProcesoPago(Pago pago) {
@@ -47,6 +50,11 @@ public class PagoServiceImpl implements PagoServices {
 
     @Override
     public List<Pago> historialPagosPorUsuario(Integer usuarioId) {
-        return pagoRepository.findAllByUsuarioId(usuarioId);
+        UsuarioResponse usuario = usuarioClient.findById(usuarioId).getBody();
+        if (usuario != null) {
+            return pagoRepository.findAllByUsuarioId(usuario.getId());
+        } else {
+            throw new RuntimeException("Usuario no encontrado");
+        }
     }
 }

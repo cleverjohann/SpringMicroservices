@@ -1,9 +1,9 @@
 server:
-  port: 0  # El puerto será asignado dinámicamente
+  port: 0  # El puerto serï¿½ asignado dinï¿½micamente
 
 spring:
   application:
-    name: msvc-producto-pago  # Nombre del microservicio
+    name: msvc-pago  # Nombre del microservicio
   config:
-    import: optional:configserver:http://config-server:8888  # Importar configuración desde el Config Server
+    import: optional:configserver:http://config-server:8888  # Importar configuraciï¿½n desde el Config Server
 

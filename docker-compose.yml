@@ -151,3 +151,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  microservice-pagos:
+    build: .
+    image: cleverjohann/microservice-pagos:latest
+    ports:
+      - "8044:8044"
+    depends_on:
+      - eureka-server
+      - config-server
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8050/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
