@@ -9,6 +9,7 @@ WORKDIR /app
 # Copiar el archivo JAR generado al contenedor
 COPY target/microservice-gateway-0.0.1-SNAPSHOT.jar app.jar
 
+
 # Exponer el puerto en el que el Config Server correrá (8888 por defecto)
 EXPOSE 8080
 

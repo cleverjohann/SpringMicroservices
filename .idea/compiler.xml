@@ -17,6 +17,7 @@
         <module name="microservice-correo" />
         <module name="microservice-usuarios" />
         <module name="microservice-eureka" />
+        <module name="microservice-pagos" />
       </profile>
     </annotationProcessing>
   </component>
@@ -28,6 +29,7 @@
       <module name="microservice-correo" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
+      <module name="microservice-pagos" options="-parameters" />
       <module name="microservice-pedido" options="-parameters" />
       <module name="microservice-producto-categoria" options="-parameters" />
       <module name="microservice-reserva-inventario" options="-parameters" />

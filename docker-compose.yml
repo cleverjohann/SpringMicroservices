@@ -136,3 +136,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  gateway-service:
+    image: cleverjohann/microservice-gateway:latest  # Reemplaza con la etiqueta correcta si es necesario
+    ports:
+      - "8080:8080"  # Mapea el puerto 8080 del contenedor al puerto 8080 del host
+    depends_on:
+      - config-server
+      - eureka-server
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

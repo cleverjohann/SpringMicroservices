@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Table(name = "reservas_inventario")
 public class ReservaInventario {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 

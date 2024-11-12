@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="bc97172c-4f5c-49b9-b872-e929a69c45ec" name="soa@soa.c904q64o6yfq.us-east-2.rds.amazonaws.com Mapping">
+      <data-sources db="a8a39952-6fdb-4446-8856-7a126471246e" />
+      <scope>
+        <node kind="database" qname="soa" />
+      </scope>
+    </mapping>
+  </component>
+</project>

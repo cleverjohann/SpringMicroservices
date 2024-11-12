@@ -26,6 +26,7 @@
     <module>microservice-auth</module>
     <module>microservice-producto-categoria</module>
     <module>microservice-reserva-inventario</module>
+    <module>microservice-pagos</module>
   </modules>
 
   <properties>
