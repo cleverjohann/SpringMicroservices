@@ -83,7 +83,8 @@ public class PedidoServiceImpl implements IPedidoService {
         pedidoRepository.delete(pedido);
     }
 
-    @Override public Pedido findById(Integer id) {
+    @Override
+    public Pedido findById(Integer id) {
         return pedidoRepository.findById(id).orElse(null);
     }
 
@@ -94,6 +95,6 @@ public class PedidoServiceImpl implements IPedidoService {
 
     @Override
     public List<Pedido> findAllByEstadoAndIdUsuario(String enProceso, Integer idUsuario) {
-        return pedidoRepository.findAllByEstadoAndIdUsuario(enProceso,idUsuario);
+        return pedidoRepository.findAllByEstadoAndIdUsuario(enProceso, idUsuario);
     }
 }

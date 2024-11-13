@@ -1,7 +1,9 @@
 package com.microservice.microservicepedido.controller;
 
 import com.microservice.microservicepedido.client.CarritoCliente;
+import com.microservice.microservicepedido.client.CorreoCliente;
 import com.microservice.microservicepedido.client.UsuarioCliente;
+import com.microservice.microservicepedido.client.response.CorreoClientDto;
 import com.microservice.microservicepedido.model.Carrito;
 import com.microservice.microservicepedido.model.Cupone;
 import com.microservice.microservicepedido.model.Pedido;
@@ -32,6 +34,7 @@ public class PedidoController {
     private final UsuarioCliente usuarioCliente;
     private final ICuponService cuponService;
     private final CarritoCliente carritoCliente;
+    private final CorreoCliente correoCliente;
 
     Map<String, Object> response = new HashMap<>();
 
@@ -93,6 +96,8 @@ public class PedidoController {
         response.put("message", "Estado actualizado");
         response.put("estado", pedidoService.save(pedido).getEstado());
         response.put("status", HttpStatus.OK);
+        //Una vez se confirma el pedido, se envía la notificación por correo al usuario
+        correoCliente.enviarCorreo(new CorreoClientDto(pedido.getUsuario().getEmail(), "El estado de su pedido ha sido cambiado.", "El estado de su pedido ha sido cambiado a: " + estado));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -159,6 +164,8 @@ public class PedidoController {
         response.put("message", "Pedido entregado");
         response.put("data", pedidoService.save(pedido));
         response.put("status", HttpStatus.OK);
+        //Enviamos correo de confirmación
+        correoCliente.enviarCorreo(new CorreoClientDto(pedido.getUsuario().getEmail(), "Pedido entregado", "Su pedido ha sido entregado."));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -197,6 +204,8 @@ public class PedidoController {
         pedido.setEstado("CANCELADO");
         response.put("data", pedidoService.save(pedido));
         response.put("status", HttpStatus.OK);
+        //Enviamos correo de cancelación
+        correoCliente.enviarCorreo(new CorreoClientDto(pedido.getUsuario().getEmail(), "Pedido cancelado", "Su pedido ha sido cancelado."));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -265,6 +274,8 @@ public class PedidoController {
 
         response.put("data", pedidoService.crearPedido(pedido, carrito));
         response.put("status", HttpStatus.OK);
+        //Enviamos correo de confirmación
+        correoCliente.enviarCorreo(new CorreoClientDto(usuario.getEmail(), "Pedido creado", "Su pedido ha sido creado."));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
