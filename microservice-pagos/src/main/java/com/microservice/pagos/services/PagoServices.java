@@ -16,6 +16,6 @@ public interface PagoServices {
 
     Pago consultarDetallesPago(Integer pagoId);
 
-    List<Pago> historialPagosPorUsuario(Integer usuarioId);
+    List<Pago> historialPagosPorPedido(Integer idPedido);
 
 }

@@ -44,8 +44,8 @@ public class PagoController {
         return ResponseEntity.ok(pago);
     }
 
-    @GetMapping("/historial/{usuarioId}")
-    public ResponseEntity<List<Pago>> historialPagosPorUsuario(@PathVariable Integer usuarioId) {
-        List<Pago> historial = pagoServices.historialPagosPorUsuario(usuarioId);
+    @GetMapping("/historial/{pedidoId}")
+    public ResponseEntity<List<Pago>> historialPagosPorPedido(@PathVariable Integer pedidoId) {
+        List<Pago> historial = pagoServices.historialPagosPorPedido(pedidoId);
         return ResponseEntity.ok(historial);
     }}
