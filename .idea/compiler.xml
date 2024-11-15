@@ -15,6 +15,7 @@
         <module name="microservice-auth" />
         <module name="microservice-config" />
         <module name="microservice-correo" />
+        <module name="microservice-envios" />
         <module name="microservice-usuarios" />
         <module name="microservice-eureka" />
         <module name="microservice-pagos" />
@@ -30,6 +31,7 @@
       <module name="microservice-carrito" options="-parameters" />
       <module name="microservice-config" options="-parameters" />
       <module name="microservice-correo" options="-parameters" />
+      <module name="microservice-envios" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
       <module name="microservice-pagos" options="-parameters" />

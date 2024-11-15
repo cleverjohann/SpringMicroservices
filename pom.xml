@@ -27,6 +27,7 @@
     <module>microservice-producto-categoria</module>
     <module>microservice-reserva-inventario</module>
     <module>microservice-pagos</module>
+    <module>microservice-envios</module>
   </modules>
 
   <properties>

@@ -1,5 +1,6 @@
 package com.microservice.pagos.api.controller;
 
+import com.microservice.pagos.api.models.HistorialPagosDto;
 import com.microservice.pagos.domain.entities.Pago;
 import com.microservice.pagos.services.PagoServices;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +45,9 @@ public class PagoController {
         return ResponseEntity.ok(pago);
     }
 
-    @GetMapping("/historial/{pedidoId}")
-    public ResponseEntity<List<Pago>> historialPagosPorPedido(@PathVariable Integer pedidoId) {
-        List<Pago> historial = pagoServices.historialPagosPorPedido(pedidoId);
-        return ResponseEntity.ok(historial);
-    }}
+    @GetMapping("/historial/{usuarioId}")
+    public ResponseEntity<List<HistorialPagosDto>> findHistorialPagosByUsuarioId(@PathVariable Integer usuarioId) {
+        List<HistorialPagosDto> historialPagos = pagoServices.findHistorialPagosByUsuarioId(usuarioId);
+        return ResponseEntity.ok(historialPagos);
+    }
+}

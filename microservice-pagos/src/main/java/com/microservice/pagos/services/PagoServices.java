@@ -1,6 +1,7 @@
 package com.microservice.pagos.services;
 
 
+import com.microservice.pagos.api.models.HistorialPagosDto;
 import com.microservice.pagos.domain.entities.Pago;
 
 import java.util.List;
@@ -16,6 +17,6 @@ public interface PagoServices {
 
     Pago consultarDetallesPago(Integer pagoId);
 
-    List<Pago> historialPagosPorPedido(Integer idPedido);
+    List<HistorialPagosDto> findHistorialPagosByUsuarioId(Integer usuarioId);
 
 }

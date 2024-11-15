@@ -1,5 +1,6 @@
 package com.microservice.pagos.services;
 
+import com.microservice.pagos.api.models.HistorialPagosDto;
 import com.microservice.pagos.api.models.PedidoResponse;
 import com.microservice.pagos.api.models.UsuarioResponse;
 import com.microservice.pagos.client.PedidoClient;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,13 +54,23 @@ public class PagoServiceImpl implements PagoServices {
     }
 
     @Override
-    public List<Pago> historialPagosPorPedido(Integer idPedido) {
-        PedidoResponse pedido = pedidoClient.findById(idPedido).getBody();
-
-        if (pedido != null) {
-            return pagoRepository.findByPedidoId(pedido.getId());
-        } else {
-            throw new RuntimeException("Pedido no encontrado");
-        }
+    public List<HistorialPagosDto> findHistorialPagosByUsuarioId(Integer usuarioId) {
+        List<PedidoResponse> pedidos = pedidoClient.listarPorId(usuarioId).getBody();
+        return pedidos.stream().flatMap(pedido -> {
+            List<Pago> pagos = pagoRepository.findByPedidoId(pedido.getId());
+            return pagos.stream().map(pago -> new HistorialPagosDto(
+                    pago.getId(),
+                    pago.getPedidoId(),
+                    pago.getMetodoPagoId(),
+                    pago.getMonto(),
+                    pago.getFechaPago(),
+                    pago.getEstado(),
+                    pedido.getUsuarioId(),
+                    pedido.getFechaPedido(),
+                    pedido.getMontoTotal(),
+                    pedido.getEstado(),
+                    pedido.getDireccionEnvio()
+            ));
+        }).collect(Collectors.toList());
     }
 }

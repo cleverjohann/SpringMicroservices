@@ -166,3 +166,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  microservice-envios:
+    build: .
+    image: cleverjohann/microservice-envios:latest
+    ports:
+      - "8045:8045"
+    depends_on:
+      - eureka-server
+      - config-server
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8045/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
