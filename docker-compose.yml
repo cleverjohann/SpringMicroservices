@@ -121,7 +121,7 @@ services:
       retries: 5
 
   pedido-service:
-    image: schulzc/microservice-pedido:18
+    image: schulzc/microservice-pedido:20
     ports:
       - "9034:9034"  # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
