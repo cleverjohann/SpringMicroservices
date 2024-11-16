@@ -9,5 +9,7 @@ public class PedidoDto {
     private String id_carrito;
     private String direccionEnvio;
     private String codigoCupon;
+    private String descripcion_metodo_pago;
+    private String nombre_metodo_pago;
 
 }

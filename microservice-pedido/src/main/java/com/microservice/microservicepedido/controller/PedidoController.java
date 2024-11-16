@@ -4,14 +4,13 @@ import com.microservice.microservicepedido.client.CarritoCliente;
 import com.microservice.microservicepedido.client.CorreoCliente;
 import com.microservice.microservicepedido.client.UsuarioCliente;
 import com.microservice.microservicepedido.client.response.CorreoClientDto;
-import com.microservice.microservicepedido.model.Carrito;
-import com.microservice.microservicepedido.model.Cupone;
-import com.microservice.microservicepedido.model.Pedido;
-import com.microservice.microservicepedido.model.Usuario;
+import com.microservice.microservicepedido.model.*;
 import com.microservice.microservicepedido.model.dto.CarritoResponseDto;
 import com.microservice.microservicepedido.model.dto.PedidoDto;
 import com.microservice.microservicepedido.model.dto.PedidoResponseDto;
 import com.microservice.microservicepedido.service.ICuponService;
+import com.microservice.microservicepedido.service.IMetodoPagoService;
+import com.microservice.microservicepedido.service.IPagoService;
 import com.microservice.microservicepedido.service.IPedidoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -35,6 +34,8 @@ public class PedidoController {
     private final ICuponService cuponService;
     private final CarritoCliente carritoCliente;
     private final CorreoCliente correoCliente;
+    private final IMetodoPagoService metodoPagoService;
+    private final IPagoService pagoService;
 
     Map<String, Object> response = new HashMap<>();
 
@@ -272,7 +273,23 @@ public class PedidoController {
                 .idCarrito(carritoSave)
                 .build();
 
-        response.put("data", pedidoService.crearPedido(pedido, carrito));
+        Pedido pedidoGuardado = pedidoService.crearPedido(pedido, carrito);
+
+        //Creamos el metodo de pago
+        MetodosPago metodosPago = new MetodosPago();
+        metodosPago.setDescripcion(dto.getDescripcion_metodo_pago());
+        metodosPago.setNombre(dto.getNombre_metodo_pago());
+        MetodosPago metodoPagoGuardado = metodoPagoService.save(metodosPago);
+        //Creamos el metodo de pago
+        Pago pago = new Pago();
+        pago.setPedido(pedidoGuardado);
+        pago.setMonto(total);
+        pago.setEstado("COMPLETADO");
+        pago.setMetodoPago(metodoPagoGuardado);
+        //Guardamos el metodo de pago
+        pagoService.save(pago);
+
+        response.put("data", pedidoGuardado);
         response.put("status", HttpStatus.OK);
         //Enviamos correo de confirmación
         correoCliente.enviarCorreo(new CorreoClientDto(usuario.getEmail(), "Pedido creado", "Su pedido ha sido creado."));
