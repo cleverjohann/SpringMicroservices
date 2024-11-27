@@ -1,5 +1,63 @@
+server:
+  port: 8080
+
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: msvc-gateway
-  config:
-    import: optional:configserver:http://config-server:8888
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: productos
+          uri: lb://producto-categoria-service
+          predicates:
+            - Path=/api/productos/**
+        - id: categorias
+          uri: lb://producto-categoria-service
+          predicates:
+            - Path=/api/categorias/**
+        - id: correo
+          uri: lb://correo-service
+          predicates:
+            - Path=/enviar-correo/**
+        - id: usuario
+          uri: lb://usuario-service
+          predicates:
+            - Path=/api/usuarios/**
+        - id: auth
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+        - id: carrito
+          uri: lb://carrito-service
+          predicates:
+            - Path=/api/carrito/**
+        - id: reserva-inventario
+          uri: lb://reserva-inventario-service
+          predicates:
+            - Path=/api/inventario/**
+        - id: pedido
+          uri: lb://pedido-service
+          predicates:
+            - Path=/api/pedido/**
+        - id: pagos
+          uri: lb://microservice-pagos
+          predicates:
+            - Path=/api/pagos/**
+        - id: envios
+          uri: lb://microservice-envios
+          predicates:
+            - Path=/api/envios/**
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

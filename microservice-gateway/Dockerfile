@@ -1,17 +1,11 @@
-# Dockerfile para microservice-config
-
-# Imagen base de OpenJDK para ejecutar la aplicación Java
-FROM openjdk:17-jdk-alpine
-
-# Crear un directorio en el contenedor para la aplicación
+# Etapa de construcción
+FROM maven:3.8.1-openjdk-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copiar el archivo JAR generado al contenedor
-COPY target/microservice-gateway-0.0.1-SNAPSHOT.jar app.jar
-
-
-# Exponer el puerto en el que el Config Server correrá (8888 por defecto)
-EXPOSE 8080
-
-# Comando para ejecutar la aplicación
+# Imagen final
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/microservice-gateway-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]

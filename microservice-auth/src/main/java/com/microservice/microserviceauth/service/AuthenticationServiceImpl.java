@@ -5,12 +5,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 // Se implementa la interfaz IAuthenticacionService
 //Se usa el principio OCP
@@ -31,12 +33,13 @@ public class AuthenticationServiceImpl implements IAuthenticacionService {
 
     @Override
     public String authenticate(HashMap<String, Object> extraClaims, UserDetails user) {
+        extraClaims.put("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         return Jwts
                 .builder()
                 .claims(extraClaims)
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))//Agregamos la fecha de creacion
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10)) //Agregamos la fecha de expiracion (10 minutos)
+                .expiration(new Date(System.currentTimeMillis() + 365L * 24 * 60 * 60 * 1000)) // Agregamos la fecha de expiracion 1 año
                 .signWith(getKey())//Agregamos la firma
                 .compact();
     }

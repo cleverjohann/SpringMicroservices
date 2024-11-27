@@ -47,6 +47,7 @@ public class registrarController {
                     .apellidom(dto.getApellidom())
                     .email(dto.getEmail())
                     .password(dto.getPassword())
+                    .roles("ROLE_USER")
                     .build();
 
             //Guardamos el usuario

@@ -51,7 +51,12 @@ public class PedidoController {
         responseDto.setMontoTotal(entity.getMontoTotal().toString());
         responseDto.setEstado(entity.getEstado());
         responseDto.setDireccionEnvio(entity.getDireccionEnvio());
-        responseDto.setCodigoCupon(entity.getCodigoCupon().getCodigo());
+        if (entity.getCodigoCupon() != null) {
+            responseDto.setCodigoCupon(entity.getCodigoCupon().getCodigo());
+        } else {
+            responseDto.setCodigoCupon("-");
+        }
+
         response.put("data", responseDto);
         response.put("status", HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -68,7 +73,22 @@ public class PedidoController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         List<Pedido> allByUsuarioId = pedidoService.findAllByUsuarioId(usuario);
-        response.put("pedidos", allByUsuarioId);
+        List<PedidoResponseDto> responseDtos = allByUsuarioId.stream().map(entity -> {
+            PedidoResponseDto responseDto = new PedidoResponseDto();
+            responseDto.setId(entity.getId().toString());
+            responseDto.setUsuario(entity.getUsuario().getNombres());
+            responseDto.setFechaPedido(entity.getFechaPedido().toString());
+            responseDto.setMontoTotal(entity.getMontoTotal().toString());
+            responseDto.setEstado(entity.getEstado());
+            responseDto.setDireccionEnvio(entity.getDireccionEnvio());
+            if (entity.getCodigoCupon() != null) {
+                responseDto.setCodigoCupon(entity.getCodigoCupon().getCodigo());
+            } else {
+                responseDto.setCodigoCupon("-");
+            }
+            return responseDto;
+        }).toList();
+        response.put("pedidos", responseDtos);
         response.put("status", HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -295,6 +315,5 @@ public class PedidoController {
         correoCliente.enviarCorreo(new CorreoClientDto(usuario.getEmail(), "Pedido creado", "Su pedido ha sido creado."));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
 }

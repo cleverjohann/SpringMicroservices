@@ -52,6 +52,7 @@ public class Pedido {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "codigo_cupon")
+    
     private Cupone codigoCupon;
 
     @ManyToOne

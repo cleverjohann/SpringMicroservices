@@ -5,11 +5,15 @@ import com.microservice.microserviceauth.model.Usuario;
 import com.microservice.microserviceauth.model.dto.CambiarPasswordDto;
 import com.microservice.microserviceauth.service.serviceIntermedio.CodigoServiceIntermedio;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,6 +25,7 @@ public class CambiarPasswordController {
 
     @PostMapping("/cambiar-password")
     public ResponseEntity<?> cambiarPassword(@RequestBody CambiarPasswordDto dto) {
+        Map<String, Object> response = new HashMap<>();
         //Verificamos que el codigo de verificación sea correcto
         if (codigoServiceIntermedio.getCodigo().equalsIgnoreCase(dto.getCodigo())) {
             //Cambiar la contraseña del usuario
@@ -35,9 +40,12 @@ public class CambiarPasswordController {
             //Actualizamos el usuario
             usuarioCliente.edit(usuario.getId(), usuario);
 
-            System.out.println("Contraseña cambiada");
-            return ResponseEntity.ok().body("Contraseña cambiada");
+            response.put("message", "Contraseña cambiada correctamente");
+            response.put("data", usuario);
+            response.put("status", HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
-        return ResponseEntity.badRequest().body("Código incorrecto");
+        response.put("message", "Código incorrecto");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
