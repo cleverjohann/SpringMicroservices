@@ -20,18 +20,42 @@ spring:
           uri: http://localhost:8040
           predicates:
             - Path=/api/categorias/**
-        - id: usuarios
-          uri: http://localhost:9030
+        - id: correo
+          uri: http://localhost:9031
           predicates:
-            - Path=/api/usuarios/**
+            - Path=/enviar-correo/**
+        - id: usuario
+          uri: http://localhost:9030          
+          predicates:
+            - Path=/api/usuarios/**            
         - id: auth
           uri: http://localhost:9032
           predicates:
             - Path=/auth/**
-        - id: correo
-          uri: http://localhost:9031
+        - id: carrito
+          uri: http://localhost:9033
           predicates:
-           - Path=/enviar-correo/**
+            - Path=/api/carrito/**
+        - id: reserva-inventario
+          uri: http://localhost:8041
+          predicates:
+            - Path=/api/inventario/**
+        - id: pedido
+          uri: http://localhost:9034
+          predicates:
+            - Path=/api/pedido/**
+        - id: pagos
+          uri: http://localhost:8044
+          predicates:
+            - Path=/api/pagos/**
+        - id: envios
+          uri: http://localhost:8045
+          predicates:
+            - Path=/api/envios/**          
+
 eureka:
+  instance:
+    hostname: localhost
   client:
-    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

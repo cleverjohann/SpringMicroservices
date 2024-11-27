@@ -1,11 +1,11 @@
-version: '3.8'
+version: "3.8"
 services:
   config-server:
-    image: cleverjohann/microservice-config:latest
+    image: schulzc/microservice-config:2
     ports:
       - "8888:8888"
     environment:
-      - SPRING_PROFILES_ACTIVE=git  # Usar el perfil git para obtener las configuraciones desde el repo
+      - SPRING_PROFILES_ACTIVE=git # Usar el perfil git para obtener las configuraciones desde el repo
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
       interval: 10s
@@ -13,15 +13,30 @@ services:
       retries: 5
 
   eureka-server:
-    image: cleverjohann/microservice-eureka:latest
+    image: schulzc/microservice-gateway:1
     ports:
       - "8761:8761"
     depends_on:
       - config-server
     environment:
-      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888  # Importar configuración desde el Config Server
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888 # Importar configuración desde el Config Server
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  gateway-service:
+    image: schulzc/microservice-gateway:3 # Reemplaza con la etiqueta correcta si es necesario
+    ports:
+      - "8080:8080" # Mapea el puerto 8080 del contenedor al puerto 8080 del host
+    depends_on:
+      - config-server
+      - eureka-server
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,7 +44,7 @@ services:
   producto-categoria-service:
     image: cleverjohann/microservice-producto-categoria:latest
     ports:
-      - "8040:8040"  # Mapea el puerto fijo 8040 del contenedor al host
+      - "8040:8040" # Mapea el puerto fijo 8040 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
@@ -44,14 +59,14 @@ services:
   correo-service:
     image: schulzc/microservice-correo:1
     ports:
-      - "9031:9031"  # Mapea el puerto fijo 8050 del contenedor al host
+      - "9031:9031" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9031/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:9031/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -59,22 +74,22 @@ services:
   usuario-service:
     image: schulzc/microservice-usuario:1
     ports:
-      - "9030:9030"  # Mapea el puerto fijo 8050 del contenedor al host
+      - "9030:9030" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9030/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:9030/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   auth-service:
-    image: schulzc/microservice-auth:3
+    image: schulzc/microservice-auth:9
     ports:
-      - "9032:9032"  # Mapea el puerto fijo 8050 del contenedor al host
+      - "9032:9032" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
@@ -83,7 +98,7 @@ services:
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9032/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:9032/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -91,7 +106,7 @@ services:
   carrito-service:
     image: schulzc/microservice-carrito:9
     ports:
-      - "9033:9033"  # Mapea el puerto fijo 8050 del contenedor al host
+      - "9033:9033" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
@@ -100,7 +115,7 @@ services:
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9033/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:9033/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -108,22 +123,22 @@ services:
   reserva-inventario-service:
     image: cleverjohann/microservice-reserva-inventario:latest
     ports:
-      - "8041:8041"  # Mapea el puerto fijo 8041 del contenedor al host
+      - "8041:8041" # Mapea el puerto fijo 8041 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8041/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8041/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   pedido-service:
-    image: schulzc/microservice-pedido:20
+    image: schulzc/microservice-pedido:23
     ports:
-      - "9034:9034"  # Mapea el puerto fijo 8050 del contenedor al host
+      - "9034:9034" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
       - eureka-server
       - config-server
@@ -132,25 +147,11 @@ services:
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9034/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:9034/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  gateway-service:
-    image: cleverjohann/microservice-gateway:latest  # Reemplaza con la etiqueta correcta si es necesario
-    ports:
-      - "8080:8080"  # Mapea el puerto 8080 del contenedor al puerto 8080 del host
-    depends_on:
-      - config-server
-      - eureka-server
-    environment:
-      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
   microservice-pagos:
     build: .
     image: cleverjohann/microservice-pagos:latest
@@ -162,10 +163,11 @@ services:
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8050/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8050/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
+
   microservice-envios:
     build: .
     image: cleverjohann/microservice-envios:latest
@@ -177,7 +179,7 @@ services:
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8045/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8045/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
