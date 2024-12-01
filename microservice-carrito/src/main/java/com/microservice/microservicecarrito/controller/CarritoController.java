@@ -23,6 +23,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/carrito")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CarritoController {
 
     private final ICarritoService carritoService;

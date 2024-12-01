@@ -8,56 +8,55 @@ spring:
     name: msvc-gateway
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
       routes:
         - id: productos
-          uri: lb://producto-categoria-service
+          uri: http://localhost:8040
           predicates:
             - Path=/api/productos/**
         - id: categorias
-          uri: lb://producto-categoria-service
+          uri: http://localhost:8040
           predicates:
             - Path=/api/categorias/**
         - id: correo
-          uri: lb://correo-service
+          uri: http://localhost:9031
           predicates:
             - Path=/enviar-correo/**
         - id: usuario
-          uri: lb://usuario-service
+          uri: http://localhost:9030
           predicates:
             - Path=/api/usuarios/**
         - id: auth
-          uri: lb://auth-service
+          uri: http://localhost:9032
           predicates:
             - Path=/auth/**
         - id: carrito
-          uri: lb://carrito-service
+          uri: http://localhost:9033
           predicates:
             - Path=/api/carrito/**
         - id: reserva-inventario
-          uri: lb://reserva-inventario-service
+          uri: http://localhost:8041
           predicates:
             - Path=/api/inventario/**
         - id: pedido
-          uri: lb://pedido-service
+          uri: http://localhost:9034
           predicates:
             - Path=/api/pedido/**
         - id: pagos
-          uri: lb://microservice-pagos
+          uri: http://localhost:8044
           predicates:
             - Path=/api/pagos/**
         - id: envios
-          uri: lb://microservice-envios
+          uri: http://localhost:8045
           predicates:
             - Path=/api/envios/**
 
 eureka:
-  instance:
-    hostname: localhost
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: true
-    fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

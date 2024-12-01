@@ -47,6 +47,8 @@ public class Usuario {
     private String password;
 
     private boolean cuenta_verificada;
+    
+    private boolean activo;
 
 
 }

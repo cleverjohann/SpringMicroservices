@@ -27,6 +27,7 @@ import java.util.Map;
 @RequestMapping("/api/pedido")
 @RequiredArgsConstructor
 @Log
+@CrossOrigin(origins = "http://localhost:4200")
 public class PedidoController {
 
     private final IPedidoService pedidoService;

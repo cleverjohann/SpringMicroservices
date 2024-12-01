@@ -13,5 +13,6 @@ public class UsuarioUpdateDto {
     private String email;
     private String password;
     private Boolean cuenta_verificada;
+    private Boolean activo;
 
 }
