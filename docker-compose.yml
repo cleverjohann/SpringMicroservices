@@ -13,7 +13,7 @@ services:
       retries: 5
 
   eureka-server:
-    image: schulzc/microservice-gateway:1
+    image: schulzc/microservice-eureka:1
     ports:
       - "8761:8761"
     depends_on:
@@ -27,7 +27,7 @@ services:
       retries: 5
 
   gateway-service:
-    image: schulzc/microservice-gateway:3 # Reemplaza con la etiqueta correcta si es necesario
+    image: schulzc/microservice-gateway:6 # Reemplaza con la etiqueta correcta si es necesario
     ports:
       - "8080:8080" # Mapea el puerto 8080 del contenedor al puerto 8080 del host
     depends_on:
@@ -42,7 +42,7 @@ services:
       retries: 5
 
   producto-categoria-service:
-    image: cleverjohann/microservice-producto-categoria:latest
+    image: schulzc/microservice-producto-categoria:1
     ports:
       - "8040:8040" # Mapea el puerto fijo 8040 del contenedor al host
     depends_on:
@@ -72,7 +72,7 @@ services:
       retries: 5
 
   usuario-service:
-    image: schulzc/microservice-usuario:1
+    image: schulzc/microservice-usuario:3
     ports:
       - "9030:9030" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
@@ -87,7 +87,7 @@ services:
       retries: 5
 
   auth-service:
-    image: schulzc/microservice-auth:9
+    image: schulzc/microservice-auth:11
     ports:
       - "9032:9032" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
@@ -104,7 +104,7 @@ services:
       retries: 5
 
   carrito-service:
-    image: schulzc/microservice-carrito:9
+    image: schulzc/microservice-carrito:10
     ports:
       - "9033:9033" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:
@@ -121,7 +121,7 @@ services:
       retries: 5
 
   reserva-inventario-service:
-    image: cleverjohann/microservice-reserva-inventario:latest
+    image: schulzc/microservice-reserva-inventario:1
     ports:
       - "8041:8041" # Mapea el puerto fijo 8041 del contenedor al host
     depends_on:
@@ -136,7 +136,7 @@ services:
       retries: 5
 
   pedido-service:
-    image: schulzc/microservice-pedido:23
+    image: schulzc/microservice-pedido:24
     ports:
       - "9034:9034" # Mapea el puerto fijo 8050 del contenedor al host
     depends_on:

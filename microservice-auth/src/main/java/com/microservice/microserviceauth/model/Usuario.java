@@ -55,6 +55,7 @@ public class Usuario implements UserDetails {
 
     private String roles;
 
+    private boolean activo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -84,5 +85,10 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @PrePersist
+    public void prePersist() {        
+        this.activo = true;
     }
 }

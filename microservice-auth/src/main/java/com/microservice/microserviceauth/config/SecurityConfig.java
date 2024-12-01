@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/user/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .exceptionHandling(e -> e.accessDeniedHandler(accessDeniedHandler()))
                 // Se establece la politica de sesiones como STATELESS para no guardar sesiones en el servidor y que cada peticion sea independiente de las demas, para evitar problemas de seguridad

@@ -1,61 +1,62 @@
-app:
-  jwtSecret: c40ba52c3818c400106e19b56837c238f532e12a0542f75e75f067a03c6d86f1ac27f671cda14c7dbc8fc3eda01959f796c5544a9d556e46459f1ef306bcde25a0d3b904bf721512c85573432f9ca79a119fe24cf926be9aea229ee5ad4731366426a6f49acf2444a1e2486708eeafec3b1caafe4d270806d18a0a69f2ae39cc63006852fcd480b0431d8728c9f0cf90dfe32e99059feb21f8a8b023f7e339f5cd011b3c173fa7750c8cb72e3b5e048a00a0ed6270c60b9be0ab845c2c802ba94e275d9b79d78ccccbab477a5d93f4816d4c930a8ebbe49c36670e1b2d637667337be9cc35b4f84b18f19f6bf8a916a97d8c6094c4bdbf672e5291043c852dec
 server:
   port: 8080
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: msvc-gateway
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
       routes:
         - id: productos
-          uri: http://localhost:8040
+          uri: lb://producto-categoria-service
           predicates:
             - Path=/api/productos/**
         - id: categorias
-          uri: http://localhost:8040
+          uri: lb://producto-categoria-service
           predicates:
             - Path=/api/categorias/**
         - id: correo
-          uri: http://localhost:9031
+          uri: lb://correo-service
           predicates:
             - Path=/enviar-correo/**
         - id: usuario
-          uri: http://localhost:9030          
+          uri: lb://usuario-service
           predicates:
-            - Path=/api/usuarios/**            
+            - Path=/api/usuarios/**
         - id: auth
-          uri: http://localhost:9032
+          uri: lb://auth-service
           predicates:
             - Path=/auth/**
         - id: carrito
-          uri: http://localhost:9033
+          uri: lb://carrito-service
           predicates:
             - Path=/api/carrito/**
         - id: reserva-inventario
-          uri: http://localhost:8041
+          uri: lb://reserva-inventario-service
           predicates:
             - Path=/api/inventario/**
         - id: pedido
-          uri: http://localhost:9034
+          uri: lb://pedido-service
           predicates:
             - Path=/api/pedido/**
         - id: pagos
-          uri: http://localhost:8044
+          uri: lb://microservice-pagos
           predicates:
             - Path=/api/pagos/**
         - id: envios
-          uri: http://localhost:8045
+          uri: lb://microservice-envios
           predicates:
-            - Path=/api/envios/**          
+            - Path=/api/envios/**
 
 eureka:
-  instance:
-    hostname: localhost
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
